@@ -1,4 +1,9 @@
-// components/sections/pain-strip.tsx — Pain points in one row
+"use client";
+
+import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useState } from "react";
+
+// components/sections/pain-strip.tsx — Pain points in one row (slideshow)
 const PAIN_ITEMS = [
   {
     icon: (
@@ -27,19 +32,48 @@ const PAIN_ITEMS = [
   },
 ] as const;
 
+const DURATION_MS = 5000; // Time each slide stays visible (5 seconds)
+const TRANSITION_MS = 1400; // Fade in/out duration (1.4 seconds)
+const ENTER_DELAY_MS = 1100; // Delay before next fades in (current ~80% done fading out)
+
 export function PainStrip() {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setIndex((prev) => (prev + 1) % PAIN_ITEMS.length);
+    }, DURATION_MS);
+    return () => clearInterval(id);
+  }, []);
+
+  const { icon, text } = PAIN_ITEMS[index];
+
   return (
     <section className="border-y border-border bg-surface-raised py-6">
-      <div className="mx-auto flex max-w-5xl flex-col items-center justify-center gap-4 px-6 md:flex-row md:gap-12">
-        {PAIN_ITEMS.map(({ icon, text }) => (
-          <div
-            key={text}
-            className="flex items-center gap-3 text-center md:text-left"
-          >
-            {icon}
-            <span className="text-sm font-medium text-text-primary">{text}</span>
-          </div>
-        ))}
+      <div className="mx-auto flex max-w-5xl items-center justify-center px-6">
+        <div className="relative min-h-10 w-full overflow-hidden">
+          <AnimatePresence initial={false} mode="sync">
+            <motion.div
+              key={text}
+              initial={{ opacity: 0, x: -80 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{
+                opacity: 0,
+                x: 80,
+                transition: { duration: TRANSITION_MS / 1000, ease: "easeInOut" },
+              }}
+              transition={{
+                duration: TRANSITION_MS / 1000,
+                ease: "easeInOut",
+                delay: ENTER_DELAY_MS / 1000,
+              }}
+              className="absolute inset-0 flex items-center justify-center gap-3 md:justify-center"
+            >
+              {icon}
+              <span className="text-sm font-medium text-text-primary">{text}</span>
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </div>
     </section>
   );

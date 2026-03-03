@@ -42,19 +42,19 @@ export function Footer() {
               />
             </Link>
           </div>
-          <div className="flex flex-col gap-2 md:flex-row md:gap-6">
+          <div className="flex flex-col gap-1 md:flex-row md:items-center md:gap-6">
             {FOOTER_LINKS.map(({ href, label }) => (
               <a
                 key={href}
                 href={href}
-                className="text-sm text-text-muted transition-colors hover:text-text-primary"
+                className="flex min-h-[44px] items-center text-sm text-text-muted transition-colors hover:text-text-primary md:min-h-0"
               >
                 {label}
               </a>
             ))}
             <a
               href="mailto:support@applicreations.com"
-              className="text-sm text-text-muted transition-colors hover:text-text-primary"
+              className="flex min-h-[44px] items-center text-sm text-text-muted transition-colors hover:text-text-primary md:min-h-0"
             >
               support@applicreations.com
             </a>

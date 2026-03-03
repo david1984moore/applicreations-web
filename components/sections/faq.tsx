@@ -6,13 +6,19 @@ const FAQ_ITEMS: AccordionItem[] = [
     id: "timeline",
     question: "How long does a project take?",
     answer:
-      "Most projects ship in 2–3 weeks from kickoff. We'll give you a specific timeline after we review your needs.",
+      "2-6 weeks depending on content and use case for your website or app. Although some projects do take 6 weeks, most projects typically range 2-4 weeks.",
   },
   {
     id: "provide",
     question: "What do I need to provide?",
     answer:
       "Your logo, brand colors (if you have them), and the content for each page. We'll handle structure, design, and build. If you're not sure what to write, we can help draft copy.",
+  },
+  {
+    id: "payment",
+    question: "What payment options are available?",
+    answer:
+      "50% of the project total official estimate is due at the start of the project (not the preview, that is completely free). Once the official estimate and proposal is signed, 50% of the total project cost is immediately due. The remaining 50% can be paid in full at the completion of the project. Or the remaining 50% will be paid in equal monthly installments until the balance is paid in full.",
   },
   {
     id: "hosting",

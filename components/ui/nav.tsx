@@ -3,6 +3,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 const NAV_LINKS = [
@@ -18,6 +19,7 @@ export function Nav() {
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 80);
+    handler(); // Set initial state on mount (handles refresh with restored scroll)
     window.addEventListener("scroll", handler, { passive: true });
     return () => window.removeEventListener("scroll", handler);
   }, []);
@@ -30,19 +32,22 @@ export function Nav() {
         "fixed inset-x-0 top-0 z-50 h-[60px] transition-colors duration-200",
         scrolled
           ? "border-b border-border bg-white/90 shadow-sm backdrop-blur-md"
-          : "border-b border-transparent bg-transparent"
+          : "border-b border-border bg-white/95 backdrop-blur-sm"
       )}
     >
       <nav className="mx-auto flex h-full max-w-5xl items-center justify-between px-6">
         <Link
           href="/"
-          className="flex items-center shrink-0"
+          className="flex shrink-0 items-center"
           aria-label="Applicreations home"
         >
-          <img
+          <Image
             src="/logo.png"
             alt="Applicreations"
+            width={120}
+            height={30}
             className="h-9 w-auto"
+            priority
           />
         </Link>
 
@@ -71,7 +76,7 @@ export function Nav() {
           aria-expanded={mobileOpen}
           aria-controls="mobile-menu"
           aria-label="Toggle menu"
-          className="flex h-10 w-10 items-center justify-center rounded-lg text-text-primary transition-colors hover:bg-surface-raised md:hidden"
+          className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg text-text-primary transition-colors hover:bg-surface-raised md:hidden"
           onClick={() => setMobileOpen(!mobileOpen)}
         >
           <svg

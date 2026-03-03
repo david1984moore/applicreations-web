@@ -2,6 +2,7 @@
 import { Hero } from "@/components/sections/hero";
 import { PainStrip } from "@/components/sections/pain-strip";
 import { Process } from "@/components/sections/process";
+import { Work } from "@/components/sections/work";
 import { Pricing } from "@/components/sections/pricing";
 import { FAQ } from "@/components/sections/faq";
 import { FinalCTA } from "@/components/sections/final-cta";
@@ -14,16 +15,7 @@ export default function Home() {
         <Hero />
         <PainStrip />
         <Process />
-        <section id="work" className="py-12">
-          <div className="mx-auto max-w-5xl px-6">
-            <h2 className="text-2xl font-semibold text-text-muted">
-              Our work
-            </h2>
-            <p className="mt-2 text-text-secondary">
-              Portfolio coming soon.
-            </p>
-          </div>
-        </section>
+        <Work />
         <Pricing />
         <FAQ />
         <FinalCTA />
