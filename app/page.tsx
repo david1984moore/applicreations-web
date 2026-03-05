@@ -13,11 +13,11 @@ export default function Home() {
     <div className="min-h-screen bg-surface pt-[60px] font-sans">
       <main>
         <Hero />
-        <PainStrip />
         <Process />
         <Work />
         <Pricing />
         <FAQ />
+        <PainStrip />
         <FinalCTA />
         <Footer />
       </main>

@@ -56,42 +56,45 @@ export function Process() {
                 key={num}
                 className="flex flex-col items-center text-center"
               >
-                <p className="mb-1 font-mono text-2xl text-text-muted">{num}</p>
-                <p className="mb-2 text-xs font-medium uppercase tracking-wider text-accent">
-                  {timeframe}
-                </p>
-                <h3 className="mb-2 text-xl font-semibold text-text-primary">
-                  {title}
-                </h3>
                 <button
                   type="button"
                   onClick={() => toggle(num)}
-                  className={cn(
-                    "mb-2 flex items-center justify-center text-accent transition-colors hover:text-accent-hover",
-                    isExpanded && "text-accent-hover"
-                  )}
+                  className="mb-2 flex w-full cursor-pointer flex-col items-center text-center transition-colors"
                   aria-expanded={isExpanded}
                   aria-controls={`process-body-${num}`}
                   aria-label={isExpanded ? `Collapse ${title}` : `Expand ${title}`}
                   id={`process-trigger-${num}`}
                 >
-                  <svg
+                  <p className="mb-1 font-mono text-2xl text-text-muted">{num}</p>
+                  <p className="mb-2 text-xs font-medium uppercase tracking-wider text-accent">
+                    {timeframe}
+                  </p>
+                  <h3 className="mb-2 text-xl font-semibold text-text-primary">
+                    {title}
+                  </h3>
+                  <span
                     className={cn(
-                      "h-4 w-4 shrink-0 transition-transform duration-200",
-                      isExpanded && "rotate-180"
+                      "process-chevron flex items-center justify-center transition-colors duration-200",
+                      isExpanded ? "text-red-500" : "text-green-500"
                     )}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    aria-hidden
                   >
-                    <path
+                    <svg
+                      className={cn(
+                        "h-4 w-5 shrink-0 transition-transform duration-200",
+                        isExpanded && "rotate-180"
+                      )}
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth={4}
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
+                      preserveAspectRatio="none"
+                      aria-hidden
+                    >
+                      <path d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </span>
                 </button>
                 <AnimatePresence initial={false}>
                   {isExpanded && (

@@ -33,6 +33,13 @@ export function Nav() {
 
   const handleAnchorClick = () => setMobileOpen(false);
 
+  const handleLogoClick = (e: React.MouseEvent) => {
+    if (pathname === "/") {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
   return (
     <header
       className={cn(
@@ -47,6 +54,7 @@ export function Nav() {
           href="/"
           className="flex shrink-0 items-center"
           aria-label="Applicreations home"
+          onClick={handleLogoClick}
         >
           <Image
             src="/logo.png"

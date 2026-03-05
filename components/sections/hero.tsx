@@ -13,7 +13,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ ...TRANSITION_REVEAL, delay: 0.08 }}
-          className="mb-2 flex items-center justify-center gap-4 font-(family-name:--font-inter) text-3xl font-semibold italic leading-tight tracking-[0.2em] text-white [text-shadow:0_2px_8px_rgba(0,0,0,0.25)] md:text-4xl"
+          className="mb-0.5 flex items-center justify-center gap-4 font-(family-name:--font-inter) text-3xl font-semibold italic leading-tight tracking-[0.2em] text-white [text-shadow:0_2px_4px_rgba(0,0,0,0.3),0_4px_12px_rgba(0,0,0,0.4),0_8px_24px_rgba(0,0,0,0.35)] md:text-4xl"
         >
           <Image
             src="/logo.png"
@@ -29,7 +29,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ ...TRANSITION_REVEAL, delay: 0.16 }}
-          className="mx-auto mb-20 max-w-xl translate-x-20 font-(family-name:--font-inter) text-lg italic text-white"
+          className="mx-auto mb-28 max-w-xl translate-x-20 font-(family-name:--font-inter) text-lg italic text-white"
         >
           Custom apps and websites
         </motion.p>
