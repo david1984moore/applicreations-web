@@ -1,4 +1,5 @@
 // components/sections/faq.tsx — FAQ accordion with real copy
+import Link from "next/link";
 import { Accordion, type AccordionItem } from "@/components/ui/accordion";
 
 const FAQ_ITEMS: AccordionItem[] = [
@@ -11,14 +12,28 @@ const FAQ_ITEMS: AccordionItem[] = [
   {
     id: "provide",
     question: "What do I need to provide?",
-    answer:
-      "Your logo, brand colors (if you have them), and the content for each page. We'll handle structure, design, and build. If you're not sure what to write, we can help draft copy.",
+    answer: (
+      <>
+        We recommend using Introspect to guide you through the process. This
+        gives us the context we need—things like business/project name, brand
+        colors, design preferences, what you want your website/app to do, and
+        how you may want it to look. Introspect is designed to gather these
+        essential building blocks for your app. So use the{" "}
+        <Link
+          href="/introspect"
+          className="font-medium text-primary hover:text-primary/90"
+        >
+          Introspect
+        </Link>{" "}
+        tool. Better than trying to remember everything you want in an email.
+      </>
+    ),
   },
   {
     id: "payment",
     question: "What payment options are available?",
     answer:
-      "50% of the project total official estimate is due at the start of the project (not the preview, that is completely free). Once the official estimate and proposal is signed, 50% of the total project cost is immediately due. The remaining 50% can be paid in full at the completion of the project. Or the remaining 50% will be paid in equal monthly installments until the balance is paid in full.",
+      "All projects require a 50% deposit to start. This does not apply to the free preview. The preview is 100% free. You can of course pay for the project in full up front. In all other cases, when an official proposal is signed (after the preview app is delivered and tested), a 50% deposit is immediately due to begin the project. Two options are provided to pay the remaining balance. Option A: Pay the remaining balance in full when your app or website is live online and your project is complete. Option B: You can choose to pay the remaining balance in 3 equal monthly payments.",
   },
   {
     id: "hosting",
@@ -36,13 +51,13 @@ const FAQ_ITEMS: AccordionItem[] = [
     id: "outside-de",
     question: "Do you work with businesses outside your area?",
     answer:
-      "We focus on local small businesses, but we've worked with clients in neighboring areas. Ask us — if it's a good fit, we'll say yes.",
+      "While we focus on our local Delaware Valley region, we are open to all potential clients, regardless of location. We operate in U.S. Eastern Standard time zone. Please take into consideration when contacting. Either send us an email or use our Introspect tool to get started.",
   },
   {
     id: "vs-diy",
     question: "How is this different from Wix or Squarespace?",
     answer:
-      "Those are DIY tools. You get a template and you build it yourself. We design and build a custom site for you — no templates, no weekend projects. You get a finished site and we handle the rest.",
+      "Those tools use templates that look generic. We do not use any templates when architecting your website or app. We take the time to understand your specific needs and build a custom website or app according to those needs. With Wix or other website builders, your ability to customize is restrained. Our design process is completely unrestrained and template-free.",
   },
 ];
 

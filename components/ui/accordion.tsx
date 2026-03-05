@@ -9,7 +9,7 @@ import { TRANSITION_REVEAL } from "@/lib/animations";
 export interface AccordionItem {
   id: string;
   question: string;
-  answer: string;
+  answer: React.ReactNode;
 }
 
 interface AccordionProps {

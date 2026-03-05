@@ -58,12 +58,12 @@ const PROJECTS = [
     ],
     highlights: [
       {
-        text: "Native app–like mobile experience: drawer navigation, stacked action buttons, thumb-friendly tap targets",
-        placement: { imageIndex: 1, top: 25, left: 25, tooltipSide: "right" as const },
-      },
-      {
         text: "Red CTAs for urgency (Horario, Productos, Llámanos); green for clickable phone numbers; social buttons use platform colors",
         placement: { imageIndex: 0, top: 72, left: 50, tooltipSide: "top" as const },
+      },
+      {
+        text: "Native app–like mobile experience: drawer navigation, stacked action buttons, thumb-friendly tap targets",
+        placement: { imageIndex: 1, top: 25, left: 25, tooltipSide: "right" as const },
       },
       {
         text: "Clear hierarchy: contact info, hours, and map in scannable cards; Open in Maps as primary next action",
