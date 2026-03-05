@@ -53,10 +53,10 @@ export function Footer() {
               </a>
             ))}
             <a
-              href="mailto:support@applicreations.com"
+              href="mailto:applicreations@gmail.com"
               className="flex min-h-[44px] items-center text-sm text-text-muted transition-colors hover:text-text-primary md:min-h-0"
             >
-              support@applicreations.com
+              applicreations@gmail.com
             </a>
           </div>
         </div>

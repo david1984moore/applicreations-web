@@ -112,7 +112,7 @@ export function Pricing() {
               onToggle={() => setStarterExpanded((e) => !e)}
             />
             <a
-              href="#contact"
+              href="/introspect"
               className="flex min-h-[44px] w-full items-center justify-center rounded-lg border border-border-strong py-2.5 text-base font-medium text-text-primary transition-colors hover:bg-surface-raised md:w-auto"
             >
               Get Started
@@ -139,7 +139,7 @@ export function Pricing() {
               onToggle={() => setProExpanded((e) => !e)}
             />
             <a
-              href="#contact"
+              href="/introspect"
               className="flex min-h-[44px] w-full items-center justify-center rounded-lg bg-primary py-2.5 text-base font-medium text-white shadow-sm transition-colors hover:bg-primary-hover md:w-auto"
             >
               Get Started →

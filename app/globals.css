@@ -61,6 +61,15 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Offset scroll targets so fixed nav (60px) doesn't overlap section headings */
+#work,
+#process,
+#pricing,
+#faq,
+#contact {
+  scroll-margin-top: 60px;
+}
+
 body {
   background: var(--color-surface);
   color: var(--color-text-primary);
