@@ -1,10 +1,17 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter } from "next/font/google";
+import { DM_Serif_Display, DM_Sans, Geist_Mono } from "next/font/google";
 import { Nav } from "@/components/ui/nav";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const dmSerifDisplay = DM_Serif_Display({
+  variable: "--font-dm-serif",
+  subsets: ["latin"],
+  weight: "400",
+  display: "swap",
+});
+
+const dmSans = DM_Sans({
+  variable: "--font-dm-sans",
   subsets: ["latin"],
   display: "swap",
 });
@@ -15,34 +22,69 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  display: "swap",
-});
-
 export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_SITE_URL ?? "https://applicreations.com"
   ),
-  title: "Applicreations | Delaware Web Development",
+  title: {
+    default: "Applicreations — Custom Web Apps & Websites",
+    template: "%s | Applicreations",
+  },
   description:
-    "Custom websites for Delaware small businesses. Design, development, and hosting — handled.",
+    "Delaware-based custom web development. We build fast, SEO-optimized websites and web apps that turn visitors into customers. No templates. No agencies.",
+  keywords: [
+    "web development",
+    "custom website",
+    "web app",
+    "Delaware",
+    "Next.js",
+    "small business website",
+  ],
+  authors: [{ name: "Applicreations" }],
+  creator: "Applicreations",
   icons: {
-    icon: "/logo.png",
+    icon: [
+      { url: "/favicon.ico", sizes: "32x32", type: "image/x-icon" },
+      { url: "/logo.png", sizes: "192x192", type: "image/png" },
+    ],
+    shortcut: "/favicon.ico",
   },
   openGraph: {
-    title: "Applicreations | Delaware Web Development",
-    description: "Custom websites for Delaware small businesses.",
+    type: "website",
+    locale: "en_US",
     url: "https://applicreations.com",
     siteName: "Applicreations",
-    locale: "en_US",
-    type: "website",
+    title: "Applicreations — Custom Web Apps & Websites",
+    description:
+      "Delaware-based custom web development. Fast, conversion-optimized sites built from scratch.",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "Applicreations — Custom Web Apps & Websites",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Applicreations | Delaware Web Development",
-    description: "Custom websites for Delaware small businesses.",
+    title: "Applicreations — Custom Web Apps & Websites",
+    description: "Custom web development for businesses that are done with templates.",
+    images: ["/opengraph-image"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  alternates: {
+    canonical: "https://applicreations.com",
   },
 };
 
@@ -76,7 +118,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} antialiased`}
+        className={`${dmSerifDisplay.variable} ${dmSans.variable} ${geistMono.variable} antialiased`}
       >
         <Nav />
         {children}

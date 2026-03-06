@@ -1,6 +1,10 @@
 // components/sections/faq.tsx — FAQ accordion with real copy
+"use client";
+
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { Accordion, type AccordionItem } from "@/components/ui/accordion";
+import { fadeInUp, VIEWPORT_SECTION } from "@/lib/animations";
 
 const FAQ_ITEMS: AccordionItem[] = [
   {
@@ -21,7 +25,7 @@ const FAQ_ITEMS: AccordionItem[] = [
         essential building blocks for your app. So use the{" "}
         <Link
           href="/introspect"
-          className="font-medium text-primary hover:text-primary/90"
+          className="font-medium text-accent hover:text-accent-hover"
         >
           Introspect
         </Link>{" "}
@@ -45,7 +49,7 @@ const FAQ_ITEMS: AccordionItem[] = [
     id: "changes",
     question: "What if I need changes after launch?",
     answer:
-      "We include 30 or 60 days of support depending on your plan. After that, we offer ongoing maintenance packages. Small tweaks are quick; we're here when you need us.",
+      "We include 30 or 60 days of support depending on your plan. After that, we offer ongoing maintenance packages. Small tweaks are quick; we\u2019re here when you need us.",
   },
   {
     id: "outside-de",
@@ -63,12 +67,32 @@ const FAQ_ITEMS: AccordionItem[] = [
 
 export function FAQ() {
   return (
-    <section id="faq" className="py-12">
+    <section
+      id="faq"
+      className="bg-[var(--color-surface-light)] py-16 sm:py-20"
+    >
       <div className="mx-auto max-w-5xl px-6">
-        <h2 className="mb-6 text-2xl font-semibold text-text-primary">
+        <motion.h2
+          variants={fadeInUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={VIEWPORT_SECTION}
+          className="mb-6 font-[family-name:var(--font-dm-serif)] text-[var(--color-text-primary)]"
+          style={{
+            fontSize: "var(--text-section)",
+            lineHeight: "var(--leading-section)",
+          }}
+        >
           Frequently asked questions
-        </h2>
-        <Accordion items={FAQ_ITEMS} />
+        </motion.h2>
+        <motion.div
+          variants={fadeInUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={VIEWPORT_SECTION}
+        >
+          <Accordion items={FAQ_ITEMS} />
+        </motion.div>
       </div>
     </section>
   );

@@ -1,4 +1,4 @@
-// components/sections/footer.tsx — Minimal footer
+// components/sections/footer.tsx — Minimal footer, dark
 "use client";
 
 import Link from "next/link";
@@ -23,13 +23,13 @@ export function Footer() {
   };
 
   return (
-    <footer className="border-t border-border bg-surface py-8">
+    <footer className="border-t border-[var(--color-border-dark)] bg-[var(--color-surface-dark)] py-8">
       <div className="mx-auto max-w-5xl px-6">
         <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
           <div>
             <Link
               href="/"
-              className="inline-block"
+              className="inline-block cursor-pointer"
               aria-label="Applicreations home"
               onClick={handleLogoClick}
             >
@@ -47,20 +47,20 @@ export function Footer() {
               <a
                 key={href}
                 href={href}
-                className="flex min-h-[44px] items-center text-sm text-text-muted transition-colors hover:text-text-primary md:min-h-0"
+                className="flex min-h-[44px] cursor-pointer items-center text-sm text-[var(--color-text-on-dark-muted)] transition-colors hover:text-[var(--color-text-on-dark)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-surface-dark)] md:min-h-0"
               >
                 {label}
               </a>
             ))}
             <a
               href="mailto:applicreations@gmail.com"
-              className="flex min-h-[44px] items-center text-sm text-text-muted transition-colors hover:text-text-primary md:min-h-0"
+              className="flex min-h-[44px] cursor-pointer items-center text-sm text-[var(--color-text-on-dark-muted)] transition-colors hover:text-[var(--color-text-on-dark)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-surface-dark)] md:min-h-0"
             >
               applicreations@gmail.com
             </a>
           </div>
         </div>
-        <p className="mt-6 text-sm text-text-muted">
+        <p className="mt-6 text-xs text-[var(--color-text-on-dark-muted)]">
           © 2026 Applicreations. All rights reserved.
         </p>
       </div>

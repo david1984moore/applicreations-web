@@ -1,57 +1,181 @@
-// components/sections/hero.tsx — Above-fold hero, entrance animations
+// components/sections/hero.tsx — Hero with left-anchored editorial layout, ambient orb, process steps
 "use client";
 
-import Image from "next/image";
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Button } from "@/components/ui/Button";
+import { cn } from "@/lib/utils";
 import { TRANSITION_REVEAL } from "@/lib/animations";
 
+const STEPS = [
+  {
+    num: "01",
+    timeframe: "5 minutes",
+    title: "Get Your Quote",
+    body: "Answer a few questions using Introspect, our custom tool that helps our developers lay the foundation for your project, and a preliminary quote will be sent to you.",
+  },
+  {
+    num: "02",
+    timeframe: "48 hours",
+    title: "We Build Your Site",
+    body: "Our developers go to work building a live preview of your custom website or app. The preview site will be completed in 48 hours completely free. No cost to you.",
+  },
+  {
+    num: "03",
+    timeframe: "Ongoing",
+    title: "Test",
+    body: "Test out your preview site. If you approve, an official estimate and proposal will be reviewed. Then we\u2019ll modify what feels off, polish what feels right.",
+  },
+  {
+    num: "04",
+    timeframe: "2–6 weeks",
+    title: "Launch and Grow",
+    body: "Completed apps or websites typically take between 2-6 weeks to complete, depending on content and use case. Once the proposal is signed, our development team will complete the site in 2-6 weeks.",
+  },
+] as const;
+
 export function Hero() {
+  const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
+
+  const toggle = (num: string) => {
+    setExpandedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(num)) next.delete(num);
+      else next.add(num);
+      return next;
+    });
+  };
+
   return (
-    <section className="bg-gradient-to-br from-sky-400 via-blue-500 to-purple-600 pt-20 pb-12">
-      <div className="mx-auto max-w-3xl text-center">
-        <motion.h1
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ ...TRANSITION_REVEAL, delay: 0.08 }}
-          className="mb-0.5 flex items-center justify-center gap-4 font-(family-name:--font-inter) text-3xl font-semibold italic leading-tight tracking-[0.2em] text-white [text-shadow:0_2px_4px_rgba(0,0,0,0.3),0_4px_12px_rgba(0,0,0,0.4),0_8px_24px_rgba(0,0,0,0.35)] md:text-4xl"
-        >
-          <Image
-            src="/logo.png"
-            alt=""
-            width={80}
-            height={80}
-            className="h-14 w-14 shrink-0 md:h-20 md:w-20 [filter:drop-shadow(0_8px_6px_rgba(0,0,0,0.35))]"
-            priority
+    <section
+      id="process"
+      className="relative min-h-screen bg-[var(--color-surface-dark)] pt-20 pb-16"
+    >
+      <div className="mx-auto grid min-h-0 max-w-5xl grid-cols-1 gap-12 px-6 lg:grid-cols-[1fr_auto] lg:gap-16">
+        {/* Left column — content */}
+        <div className="flex flex-col justify-center">
+          <p
+            className="mb-4 font-[family-name:var(--font-dm-sans)] text-[var(--text-eyebrow)] uppercase tracking-[var(--tracking-eyebrow)] text-accent"
+            style={{ fontSize: "var(--text-eyebrow)" }}
+          >
+            Custom apps and websites
+          </p>
+          <motion.h1
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ ...TRANSITION_REVEAL, delay: 0.08 }}
+            className="font-[family-name:var(--font-dm-serif)] text-[var(--color-text-on-dark)]"
+            style={{
+              fontSize: "var(--text-hero)",
+              lineHeight: "var(--leading-hero)",
+              fontWeight: 400,
+            }}
+          >
+            Applicreations
+          </motion.h1>
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ ...TRANSITION_REVEAL, delay: 0.24 }}
+            className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center"
+          >
+            <Button asChild variant="primary" onDark>
+              <a href="/introspect">Get a Quote →</a>
+            </Button>
+            <Button asChild variant="ghost" onDark>
+              <a href="#work">See Our Work</a>
+            </Button>
+          </motion.div>
+        </div>
+
+        {/* Right column — ambient orb */}
+        <div className="relative hidden lg:block">
+          <div
+            className="hero-orb absolute -right-20 top-1/2 h-[420px] w-[420px] -translate-y-1/2 rounded-full"
+            style={{
+              background:
+                "radial-gradient(circle, oklch(62% 0.22 280 / 0.18) 0%, transparent 70%)",
+            }}
+            aria-hidden
           />
-          Applicreations
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ ...TRANSITION_REVEAL, delay: 0.16 }}
-          className="mx-auto mb-28 max-w-xl translate-x-20 font-(family-name:--font-inter) text-lg italic text-white"
-        >
-          Custom apps and websites
-        </motion.p>
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ ...TRANSITION_REVEAL, delay: 0.24 }}
-          className="flex w-full flex-col items-stretch justify-center gap-4 sm:w-auto sm:flex-row sm:items-center"
-        >
-          <a
-            href="/introspect"
-            className="inline-flex min-h-[44px] items-center justify-center rounded-lg bg-primary px-5 py-2.5 text-base font-medium text-white shadow-sm transition-colors hover:bg-primary-hover"
-          >
-            Get a Quote →
-          </a>
-          <a
-            href="#work"
-            className="inline-flex min-h-[44px] items-center justify-center rounded-lg border border-white px-5 py-2.5 text-base font-medium text-white transition-colors hover:bg-white/20"
-          >
-            See Our Work
-          </a>
-        </motion.div>
+        </div>
+      </div>
+
+      {/* Process steps row — horizontal strip at bottom of hero */}
+      <div className="mx-auto mt-20 max-w-5xl px-6">
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+          {STEPS.map(({ num, timeframe, title, body }) => {
+            const isExpanded = expandedIds.has(num);
+            return (
+              <div key={num} className="flex flex-col items-center text-center">
+                <button
+                  type="button"
+                  onClick={() => toggle(num)}
+                  className="mb-2 flex w-full cursor-pointer flex-col items-center text-center transition-colors"
+                  aria-expanded={isExpanded}
+                  aria-controls={`process-body-${num}`}
+                  aria-label={
+                    isExpanded ? `Collapse ${title}` : `Expand ${title}`
+                  }
+                  id={`process-trigger-${num}`}
+                >
+                  <p
+                    className="mb-1 font-[family-name:var(--font-dm-sans)] text-6xl font-thin text-[var(--color-text-on-dark-muted)]"
+                    aria-hidden
+                  >
+                    {num}
+                  </p>
+                  <p
+                    className="mb-2 font-[family-name:var(--font-dm-sans)] text-[var(--text-eyebrow)] uppercase tracking-[var(--tracking-eyebrow)] text-accent"
+                    style={{ fontSize: "var(--text-eyebrow)" }}
+                  >
+                    {timeframe}
+                  </p>
+                  <h3 className="mb-2 text-xl font-semibold text-[var(--color-text-on-dark)]">
+                    {title}
+                  </h3>
+                  <span
+                    className={cn(
+                      "flex items-center justify-center text-accent transition-transform duration-200",
+                      isExpanded && "rotate-180"
+                    )}
+                  >
+                    <svg
+                      className="h-4 w-5 shrink-0"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth={4}
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden
+                    >
+                      <path d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </span>
+                </button>
+                <AnimatePresence initial={false}>
+                  {isExpanded && (
+                    <motion.div
+                      id={`process-body-${num}`}
+                      role="region"
+                      aria-labelledby={`process-trigger-${num}`}
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={TRANSITION_REVEAL}
+                      className="w-full overflow-hidden"
+                    >
+                      <p className="mx-auto max-w-[260px] text-balance text-[15px] leading-relaxed text-[var(--color-text-on-dark-muted)]">
+                        {body}
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

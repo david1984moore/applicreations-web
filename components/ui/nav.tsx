@@ -1,4 +1,4 @@
-// components/ui/nav.tsx — Sticky nav, transparent → frosted on scroll, mobile hamburger
+// components/ui/nav.tsx — Sticky nav, dark frosted glass, accent underline on hover
 "use client";
 
 import { useEffect, useState } from "react";
@@ -26,7 +26,7 @@ export function Nav() {
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 80);
-    handler(); // Set initial state on mount (handles refresh with restored scroll)
+    handler();
     window.addEventListener("scroll", handler, { passive: true });
     return () => window.removeEventListener("scroll", handler);
   }, []);
@@ -44,15 +44,14 @@ export function Nav() {
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-50 h-[60px] transition-colors duration-200",
-        scrolled
-          ? "border-b border-border bg-white/90 shadow-sm backdrop-blur-md"
-          : "border-b border-border bg-white/95 backdrop-blur-sm"
+        "bg-[var(--color-surface-dark)]/90 backdrop-blur-md",
+        scrolled && "border-b border-[var(--color-border-dark)]"
       )}
     >
       <nav className="relative mx-auto flex h-full max-w-5xl items-center justify-between px-6">
         <Link
           href="/"
-          className="flex shrink-0 items-center"
+          className="flex shrink-0 cursor-pointer items-center"
           aria-label="Applicreations home"
           onClick={handleLogoClick}
         >
@@ -61,52 +60,53 @@ export function Nav() {
             alt="Applicreations"
             width={120}
             height={30}
-            className="h-9 w-auto drop-shadow-[0_4px_4px_rgba(0,0,0,0.3)] drop-shadow-[0_8px_16px_rgba(0,0,0,0.5)] drop-shadow-[0_12px_24px_rgba(0,0,0,0.35)]"
+            className="h-9 w-auto"
             priority
           />
         </Link>
 
-        {/* Back button — aligned with main content (max-w-[680px]) */}
         {showBack && (
           <div className="pointer-events-none absolute left-1/2 flex w-full max-w-[680px] -translate-x-1/2 items-center px-6">
             <button
               type="button"
               onClick={goBack}
-              className="pointer-events-auto text-sm font-medium text-text-secondary transition-colors hover:text-text-primary"
+              className="pointer-events-auto text-sm font-medium text-[var(--color-text-on-dark-muted)] transition-colors hover:text-[var(--color-text-on-dark)]"
             >
               ← Back
             </button>
           </div>
         )}
 
-        {/* Desktop links */}
         <div className="hidden items-center gap-8 md:flex">
           {NAV_LINKS.map(({ href, label }) => (
             <a
               key={href}
               href={href}
-              className="text-sm font-medium text-text-secondary transition-colors hover:text-text-primary"
+              className="group relative cursor-pointer text-sm font-normal text-[var(--color-text-on-dark-muted)] transition-colors duration-200 hover:text-[var(--color-text-on-dark)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-surface-dark)]"
             >
               {label}
+              <span
+                className="absolute -bottom-0.5 left-0 h-px w-full origin-left scale-x-0 bg-accent transition-transform duration-200 group-hover:scale-x-100"
+                aria-hidden
+              />
             </a>
           ))}
           {!isIntrospect && (
             <a
               href="/introspect"
-              className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-primary-hover"
+              className="ml-2 inline-flex min-h-[44px] cursor-pointer items-center justify-center rounded-[6px] bg-accent px-7 py-3 text-[15px] font-medium text-white shadow-sm transition-all duration-[180ms] hover:-translate-y-px hover:bg-accent-hover hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-surface-dark)]"
             >
               Introspect
             </a>
           )}
         </div>
 
-        {/* Mobile hamburger */}
         <button
           type="button"
           aria-expanded={mobileOpen}
           aria-controls="mobile-menu"
           aria-label="Toggle menu"
-          className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg text-text-primary transition-colors hover:bg-surface-raised md:hidden"
+          className="flex min-h-[44px] min-w-[44px] cursor-pointer items-center justify-center rounded-[6px] text-[var(--color-text-on-dark)] transition-colors hover:bg-[var(--color-surface-mid)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-surface-dark)] md:hidden"
           onClick={() => setMobileOpen(!mobileOpen)}
         >
           <svg
@@ -135,13 +135,12 @@ export function Nav() {
         </button>
       </nav>
 
-      {/* Mobile menu — full-width slide-down panel */}
       <div
         id="mobile-menu"
         role="region"
         aria-label="Mobile navigation"
         className={cn(
-          "overflow-hidden border-b border-border bg-white/95 backdrop-blur-md transition-[max-height] duration-200 ease-out md:hidden",
+          "overflow-hidden border-b border-[var(--color-border-dark)] bg-[var(--color-surface-dark)]/95 backdrop-blur-md transition-[max-height] duration-200 ease-out md:hidden",
           mobileOpen ? "max-h-64" : "max-h-0"
         )}
       >
@@ -150,18 +149,18 @@ export function Nav() {
             <a
               key={href}
               href={href}
-              className="rounded-lg px-4 py-3 text-base font-medium text-text-primary transition-colors hover:bg-surface-raised"
+              className="cursor-pointer rounded-[6px] px-4 py-3 text-base font-medium text-[var(--color-text-on-dark)] transition-colors hover:bg-[var(--color-surface-mid)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-surface-dark)]"
               onClick={handleAnchorClick}
             >
               {label}
             </a>
           ))}
           {!isIntrospect && (
-            <Link
-              href="/introspect"
-              className="mt-2 block rounded-lg bg-primary px-4 py-3 text-center text-base font-medium text-white"
-              onClick={handleAnchorClick}
-            >
+          <Link
+            href="/introspect"
+            className="mt-2 block cursor-pointer rounded-[6px] bg-accent px-4 py-3 text-center text-base font-medium text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-surface-dark)]"
+            onClick={handleAnchorClick}
+          >
               Introspect
             </Link>
           )}
