@@ -7,8 +7,6 @@ import { ClientSummaryPDF } from '@/components/pdf/ClientSummaryPDF'
 import { generateClientSummary } from '@/lib/scopeGeneration/clientSummary'
 import type { Intelligence } from '@/types/intelligence'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
-
 function slugify(text: string): string {
   return text
     .toLowerCase()
@@ -25,6 +23,7 @@ export async function sendDocuments(
     throw new Error('RESEND_API_KEY is not configured')
   }
 
+  const resend = new Resend(process.env.RESEND_API_KEY)
   const clientSummary = generateClientSummary(intelligence)
   const pdfElement = React.createElement(ClientSummaryPDF, { summary: clientSummary })
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

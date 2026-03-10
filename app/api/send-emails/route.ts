@@ -4,6 +4,8 @@ import { NextResponse } from 'next/server'
 import { sendDocuments } from '@/lib/email/sendDocuments'
 import type { Intelligence } from '@/types/intelligence'
 
+export const dynamic = 'force-dynamic'
+
 export async function POST(request: Request) {
   try {
     const body = await request.json()

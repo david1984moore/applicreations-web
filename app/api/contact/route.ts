@@ -2,6 +2,8 @@
 import { Resend } from "resend";
 import { NextResponse } from "next/server";
 
+export const dynamic = 'force-dynamic'
+
 interface ContactBody {
   name: string;
   businessName: string;
