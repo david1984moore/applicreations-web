@@ -3,7 +3,7 @@
 import { Resend } from 'resend'
 import { NextResponse } from 'next/server'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+export const dynamic = 'force-dynamic'
 
 export async function POST(request: Request) {
   try {
@@ -22,6 +22,8 @@ export async function POST(request: Request) {
         { status: 500 }
       )
     }
+
+    const resend = new Resend(process.env.RESEND_API_KEY)
 
     // Send SCOPE.md to David
     const { error: davidError } = await resend.emails.send({
