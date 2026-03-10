@@ -6,7 +6,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { useIntakeStore } from "@/stores/intakeStore";
 
 const NAV_LINKS = [
   { href: "#work", label: "Work" },
@@ -19,10 +18,8 @@ export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
-  const { phase, goBack } = useIntakeStore();
   const isIntrospect = pathname?.startsWith("/introspect");
-  const showBack =
-    isIntrospect && (phase === "questionnaire" || phase === "review");
+  // RECONCILED: Old flow had nav Back for questionnaire/review; spec uses in-card Back only
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 80);
@@ -65,18 +62,6 @@ export function Nav() {
           />
         </Link>
 
-        {showBack && (
-          <div className="pointer-events-none absolute left-1/2 flex w-full max-w-[680px] -translate-x-1/2 items-center px-6">
-            <button
-              type="button"
-              onClick={goBack}
-              className="pointer-events-auto text-sm font-medium text-[var(--color-text-on-dark-muted)] transition-colors hover:text-[var(--color-text-on-dark)]"
-            >
-              ← Back
-            </button>
-          </div>
-        )}
-
         <div className="hidden items-center gap-8 md:flex">
           {NAV_LINKS.map(({ href, label }) => (
             <a
@@ -94,7 +79,7 @@ export function Nav() {
           {!isIntrospect && (
             <a
               href="/introspect"
-              className="ml-2 inline-flex min-h-[44px] cursor-pointer items-center justify-center rounded-[6px] bg-accent px-7 py-3 text-[15px] font-medium text-white shadow-sm transition-all duration-[180ms] hover:-translate-y-px hover:bg-accent-hover hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-surface-dark)]"
+              className="ml-2 inline-flex min-h-[44px] cursor-pointer items-center justify-center rounded-[6px] border border-[var(--color-border-dark)] bg-transparent px-7 py-3 text-[15px] font-medium text-[var(--color-text-on-dark)] transition-all duration-[180ms] hover:-translate-y-px hover:bg-[var(--color-surface-subtle)] hover:text-[var(--color-text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-surface-dark)]"
             >
               Introspect
             </a>
@@ -158,7 +143,7 @@ export function Nav() {
           {!isIntrospect && (
           <Link
             href="/introspect"
-            className="mt-2 block cursor-pointer rounded-[6px] bg-accent px-4 py-3 text-center text-base font-medium text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-surface-dark)]"
+            className="mt-2 block cursor-pointer rounded-[6px] border border-[var(--color-border-dark)] bg-transparent px-4 py-3 text-center text-base font-medium text-[var(--color-text-on-dark)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-surface-dark)] transition-colors hover:bg-[var(--color-surface-subtle)] hover:text-[var(--color-text-primary)]"
             onClick={handleAnchorClick}
           >
               Introspect

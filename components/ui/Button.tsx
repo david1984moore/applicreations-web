@@ -24,7 +24,7 @@ const buttonVariants = (
       `bg-accent text-white shadow-sm hover:-translate-y-px hover:bg-accent-hover hover:shadow-md ${onDark ? "focus-visible:ring-offset-[var(--color-surface-dark)]" : ""}`,
     variant === "ghost" &&
       (onDark
-        ? "border border-[var(--color-border-dark)] bg-transparent text-[var(--color-text-on-dark)] hover:bg-[var(--color-surface-subtle)] hover:-translate-y-px focus-visible:ring-offset-[var(--color-surface-dark)]"
+        ? "border border-[var(--color-border-dark)] bg-transparent text-[var(--color-text-on-dark)] hover:bg-[var(--color-surface-subtle)] hover:text-[var(--color-text-primary)] hover:-translate-y-px focus-visible:ring-offset-[var(--color-surface-dark)]"
         : "border-[1.5px] border-[var(--color-border-light)] bg-transparent text-[var(--color-text-primary)] hover:-translate-y-px hover:bg-[var(--color-surface-subtle)]"),
     size === "default" && "min-h-[44px] px-7 py-3",
     size === "sm" && "min-h-[40px] px-4 py-2 text-sm",

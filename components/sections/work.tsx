@@ -3,6 +3,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/Button";
 import {
@@ -417,7 +418,7 @@ export function Work() {
             Our Work
           </h2>
           <p className="mt-3 max-w-2xl text-lg text-[var(--color-text-secondary)]">
-            A peek at what we\u2019ve built — custom web apps that feel native on
+            A peek at what we've built — custom web apps that feel native on
             your phone. Pick a project below to explore.
           </p>
         </motion.div>
@@ -476,7 +477,10 @@ export function Work() {
           className="mt-10"
         >
           <Button asChild variant="primary">
-            <a href="/introspect">Get Started</a>
+            <a href="/introspect" className="inline-flex items-center gap-2">
+              Get started with Introspect
+              <ArrowRight className="h-4 w-4" aria-hidden />
+            </a>
           </Button>
         </motion.div>
       </div>

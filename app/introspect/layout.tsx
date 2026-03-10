@@ -11,5 +11,9 @@ export default function IntrospectLayout({
 }: {
   children: React.ReactNode
 }) {
-  return children
+  return (
+    <div className="min-h-screen bg-[oklch(10%_0_0)]">
+      {children}
+    </div>
+  )
 }

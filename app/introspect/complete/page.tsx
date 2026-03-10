@@ -1,140 +1,112 @@
 'use client'
 
-import { useEffect, useState, useRef } from 'react'
-import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 import Link from 'next/link'
-import { useIntakeStore } from '@/stores/intakeStore'
-import { answersToIntelligence } from '@/lib/questions/answersToIntelligence'
-import { ProcessingScreen } from '@/components/intake/ProcessingScreen'
-import { SuccessScreen } from '@/components/intake/SuccessScreen'
+import { Check, Mail } from 'lucide-react'
+import { useQuestionnaireStore } from '@/stores/questionnaireStore'
 
-const MIN_PROCESSING_MS = 3000
+const CALENDLY_URL =
+  process.env.NEXT_PUBLIC_CALENDLY_URL ?? 'https://calendly.com/applicreations'
+const DAVID_EMAIL = 'david1984moore@gmail.com'
+
+function getFirstName(answers: Record<string, { value: string | string[] }>): string {
+  const nameVal = answers['q1_name']?.value
+  if (!nameVal) return ''
+  const name = typeof nameVal === 'string' ? nameVal : nameVal[0] ?? ''
+  const first = name.trim().split(/\s+/)[0]
+  return first || name
+}
 
 export default function IntrospectCompletePage() {
-  const router = useRouter()
-  const { answers, isComplete, reset, returnToForm } = useIntakeStore()
-  const [status, setStatus] = useState<'idle' | 'processing' | 'success' | 'error'>('idle')
-  const [errorMessage, setErrorMessage] = useState('')
-  const clientEmailRef = useRef<string>('')
+  const { answers, reset } = useQuestionnaireStore()
+
+  const firstName = getFirstName(answers)
+  const clientEmail = String(answers['q2_email']?.value ?? '')
 
   useEffect(() => {
-    if (status === 'success') return
-    if (!isComplete || Object.keys(answers).length === 0) {
-      router.replace('/introspect')
-    }
-  }, [isComplete, answers, router, status])
+    const t = setTimeout(() => reset(), 2000)
+    return () => clearTimeout(t)
+  }, [reset])
 
-  useEffect(() => {
-    if (!isComplete || status !== 'idle') return
-
-    const run = async () => {
-      setStatus('processing')
-      setErrorMessage('')
-      clientEmailRef.current = String(answers['q2_email']?.value ?? '')
-      const startTime = Date.now()
-
-      try {
-        const intelligence = answersToIntelligence(answers)
-
-        const scopeRes = await fetch('/api/generate-scope', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ intelligence }),
-        })
-
-        if (!scopeRes.ok) {
-          const data = await scopeRes.json().catch(() => ({}))
-          throw new Error(data.error ?? 'Failed to generate scope')
-        }
-
-        const { scopeMarkdown } = await scopeRes.json()
-
-        const emailRes = await fetch('/api/send-emails', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            scopeMarkdown,
-            intelligence,
-            clientEmail: clientEmailRef.current,
-          }),
-        })
-
-        if (!emailRes.ok) {
-          const data = await emailRes.json().catch(() => ({}))
-          const details = data.details ? ` — ${data.details}` : ''
-          throw new Error((data.error ?? 'Failed to send emails') + details)
-        }
-
-        const elapsed = Date.now() - startTime
-        const remaining = Math.max(0, MIN_PROCESSING_MS - elapsed)
-        await new Promise((r) => setTimeout(r, remaining))
-
-        setStatus('success')
-        reset()
-      } catch (err) {
-        setStatus('error')
-        setErrorMessage(
-          err instanceof Error ? err.message : 'Something went wrong. Please try again.'
-        )
-      }
-    }
-
-    run()
-  }, [isComplete])
-
-  if (status === 'processing') {
-    return <ProcessingScreen />
-  }
-
-  if (status === 'error') {
-    return (
-      <div
-        className="flex min-h-screen flex-col items-center justify-center px-6"
-        style={{
-          background: 'linear-gradient(135deg, oklch(0.12 0.04 250) 0%, oklch(0.18 0.06 260) 100%)',
-        }}
-      >
-        <div className="max-w-md text-center">
-          <h1 className="mb-2 text-2xl font-semibold text-white">
-            Something went wrong
-          </h1>
-          <p className="mb-6 text-white/80">{errorMessage}</p>
-          <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
-            <Link
-              href="/introspect"
-              className="inline-flex min-h-[44px] items-center justify-center rounded-lg border border-white bg-transparent px-6 py-2.5 text-base font-medium text-white transition-colors hover:bg-white hover:text-[oklch(0.45_0.18_250)]"
-            >
-              Try again
-            </Link>
-            <button
-              type="button"
-              onClick={() => {
-                returnToForm()
-                router.push('/introspect')
-              }}
-              className="inline-flex min-h-[44px] items-center justify-center rounded-lg border border-white/50 bg-white/10 px-6 py-2.5 text-base font-medium text-white backdrop-blur-sm hover:bg-white/20"
-            >
-              Return to form
-            </button>
+  return (
+    <div className="min-h-screen bg-[oklch(10%_0_0)] px-6 py-16 md:px-12 md:py-24">
+      <div className="mx-auto max-w-2xl space-y-16">
+        {/* Zone 1 — Confirmation header */}
+        <section className="space-y-4 text-center">
+          <div
+            className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[oklch(58%_0.20_240)]/20 text-[oklch(58%_0.20_240)]"
+            aria-hidden
+          >
+            <Check size={24} strokeWidth={2.5} />
           </div>
-          <p className="mt-6 text-sm text-white/60">
-            Your answers are saved. If the problem persists,{' '}
-            <a
-              href="mailto:hello@applicreations.com"
-              className="text-white/80 hover:underline"
-            >
-              email us directly
-            </a>
-            .
+          <h1 className="text-[2.369rem] leading-[1.2] font-medium text-[oklch(95%_0_0)]">
+            You&apos;re all set{firstName ? `, ${firstName}` : ''}.
+          </h1>
+          <p className="text-base leading-[1.6] text-[oklch(60%_0_0)]">
+            Your project brief is on its way.
           </p>
-        </div>
+        </section>
+
+        {/* Zone 2 — Email status */}
+        <section className="grid gap-4 sm:grid-cols-2">
+          <div className="rounded-xl border border-[oklch(25%_0_0)] bg-[oklch(14%_0_0)] p-6">
+            <div className="mb-3 flex items-center gap-2 text-[oklch(58%_0.20_240)]">
+              <Mail size={18} strokeWidth={2} />
+              <span className="text-sm font-medium">Sent to you</span>
+            </div>
+            <p className="text-[oklch(95%_0_0)] font-medium">
+              {clientEmail || 'Your email'}
+            </p>
+            <p className="mt-1 text-sm text-[oklch(60%_0_0)]">
+              Your project summary
+            </p>
+            <p className="mt-3 inline-flex items-center gap-1.5 text-xs text-[oklch(58%_0.20_240)]">
+              <Check size={14} strokeWidth={2.5} />
+              Sent
+            </p>
+          </div>
+
+          <div className="rounded-xl border border-[oklch(25%_0_0)] bg-[oklch(14%_0_0)] p-6">
+            <div className="mb-3 flex items-center gap-2 text-[oklch(58%_0.20_240)]">
+              <Mail size={18} strokeWidth={2} />
+              <span className="text-sm font-medium">Sent to David</span>
+            </div>
+            <p className="text-[oklch(95%_0_0)] font-medium">{DAVID_EMAIL}</p>
+            <p className="mt-1 text-sm text-[oklch(60%_0_0)]">
+              Full project specification
+            </p>
+            <p className="mt-3 inline-flex items-center gap-1.5 text-xs text-[oklch(58%_0.20_240)]">
+              <Check size={14} strokeWidth={2.5} />
+              Sent
+            </p>
+          </div>
+        </section>
+
+        {/* Zone 3 — Next steps */}
+        <section className="space-y-6 text-center">
+          <Link
+            href={CALENDLY_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block rounded-lg bg-[oklch(58%_0.20_240)] px-8 py-4 text-base font-medium text-white transition-opacity hover:opacity-90"
+          >
+            Schedule your discovery call
+          </Link>
+          <p className="max-w-md mx-auto text-sm leading-[1.6] text-[oklch(60%_0_0)]">
+            David will review your brief before the call. Expect a 30-minute
+            conversation to align on scope and timeline.
+          </p>
+          <p className="text-sm text-[oklch(50%_0_0)]">
+            Questions?{' '}
+            <a
+              href={`mailto:${DAVID_EMAIL}`}
+              className="text-[oklch(58%_0.20_240)] underline hover:no-underline"
+            >
+              {DAVID_EMAIL}
+            </a>
+          </p>
+        </section>
       </div>
-    )
-  }
-
-  if (status === 'success') {
-    return <SuccessScreen email={clientEmailRef.current} />
-  }
-
-  return null
+    </div>
+  )
 }

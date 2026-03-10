@@ -9,27 +9,27 @@ import { TRANSITION_REVEAL } from "@/lib/animations";
 const STEPS = [
   {
     num: "01",
-    timeframe: "5 minutes",
-    title: "Get Your Quote",
-    body: "Answer a few questions using Introspect, our custom tool that helps our developers lay the foundation for your project, and a preliminary quote will be sent to you.",
+    timeframe: "5 Minutes",
+    title: "Introspect",
+    body: "Answer a few questions using Introspect, our custom intake tool. Your responses are transformed into a Product Requirements Document—a blueprint our developers use to architect your project from the ground up.",
   },
   {
     num: "02",
-    timeframe: "48 hours",
-    title: "We Build Your Site",
-    body: "Our developers go to work building a live preview of your custom website or app. The preview site will be completed in 48 hours completely free. No cost to you.",
+    timeframe: "48 Hours",
+    title: "Build",
+    body: "Our developers get to work immediately, building a live preview of your custom site or app—delivered within 48 hours, at no charge.",
   },
   {
     num: "03",
     timeframe: "Ongoing",
     title: "Test",
-    body: "Test out your preview site. If you approve, an official estimate and proposal will be reviewed. Then we'll modify what feels off, polish what feels right.",
+    body: "Explore your preview and share feedback. We'll refine what needs adjusting until it feels exactly right—then lock in your official proposal.",
   },
   {
     num: "04",
-    timeframe: "2–6 weeks",
-    title: "Launch and Grow",
-    body: "Completed apps or websites typically take between 2-6 weeks to complete, depending on content and use case. Once the proposal is signed, our development team will complete the site in 2-6 weeks.",
+    timeframe: "2–6 Weeks",
+    title: "Grow",
+    body: "Once the proposal is signed, your build kicks off. Most projects wrap in 2–6 weeks depending on scope—and we keep you in the loop the entire way.",
   },
 ] as const;
 
