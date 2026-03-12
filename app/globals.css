@@ -11,10 +11,10 @@
   --color-surface-light: oklch(98% 0.005 265);
   --color-surface-subtle: oklch(96% 0.008 265);
 
-  /* Brand accent — single purple, used sparingly */
-  --color-accent: oklch(62% 0.22 280);
-  --color-accent-hover: oklch(58% 0.24 280);
-  --color-accent-subtle: oklch(62% 0.22 280 / 0.1);
+  /* Brand accent — blue-violet, sRGB-safe (hue 265, chroma 0.18 stays within sRGB gamut) */
+  --color-accent: oklch(62% 0.18 265);
+  --color-accent-hover: oklch(58% 0.20 265);
+  --color-accent-subtle: oklch(62% 0.18 265 / 0.1);
 
   /* Text hierarchy */
   --color-text-primary: oklch(12% 0.01 265);
@@ -76,11 +76,19 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 60px; /* Match navbar height (h-[60px]) */
+  background-color: oklch(14% 0.02 265); /* --color-surface-dark — prevents iOS overscroll white flash */
 }
 
 @media (max-width: 768px) {
   html {
     scroll-padding-top: 60px; /* Mobile nav same height when closed */
+  }
+}
+
+/* iOS Safari overscroll containment — mobile only */
+@media (max-width: 767px) {
+  html {
+    overscroll-behavior-y: none;
   }
 }
 
@@ -93,6 +101,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeSpeed;
+  overscroll-behavior-y: none; /* Reduces iOS rubber-band on body */
 }
 
 /* Phase 2B — Custom scrollbar */

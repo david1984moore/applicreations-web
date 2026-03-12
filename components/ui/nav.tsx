@@ -41,9 +41,13 @@ export function Nav() {
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-50 h-[60px] transition-colors duration-200",
-        "bg-[var(--color-surface-dark)]/90 backdrop-blur-md",
         scrolled && "border-b border-[var(--color-border-dark)]"
       )}
+      style={{
+        backgroundColor: "oklch(14% 0.02 265 / 0.92)",
+        backdropFilter: "blur(12px)",
+        WebkitBackdropFilter: "blur(12px)",
+      }}
     >
       <nav className="relative mx-auto flex h-full max-w-5xl items-center justify-between px-6">
         <Link
@@ -125,9 +129,14 @@ export function Nav() {
         role="region"
         aria-label="Mobile navigation"
         className={cn(
-          "overflow-hidden border-b border-[var(--color-border-dark)] bg-[var(--color-surface-dark)]/95 backdrop-blur-md transition-[max-height] duration-200 ease-out md:hidden",
-          mobileOpen ? "max-h-64" : "max-h-0"
+          "overflow-hidden border-b border-[var(--color-border-dark)] transition-[max-height] duration-200 ease-out md:hidden",
+          mobileOpen ? "max-h-96" : "max-h-0"
         )}
+        style={{
+          backgroundColor: "oklch(14% 0.02 265 / 0.96)",
+          backdropFilter: "blur(12px)",
+          WebkitBackdropFilter: "blur(12px)",
+        }}
       >
         <div className="flex flex-col gap-1 px-6 py-4">
           {NAV_LINKS.map(({ href, label }) => (
