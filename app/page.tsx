@@ -9,7 +9,7 @@ import { Footer } from "@/components/sections/footer";
 
 export default function Home() {
   return (
-    <div className="min-h-screen pt-[60px] font-[family-name:var(--font-dm-sans)]">
+    <div className="min-h-screen pt-[60px] bg-[var(--color-surface-dark)] font-[family-name:var(--font-dm-sans)]">
       <main>
         <Hero />
         <Work />

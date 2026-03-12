@@ -85,6 +85,12 @@ html {
   }
 }
 
+@media (max-width: 767px) {
+  body {
+    background: var(--color-surface-dark);
+  }
+}
+
 
 body {
   background: var(--color-surface-light);
