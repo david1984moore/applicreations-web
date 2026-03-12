@@ -40,13 +40,11 @@ export function Nav() {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 h-[60px] transition-colors duration-200",
+        "fixed inset-x-0 top-0 z-50 h-[60px] transition-colors duration-200 nav-blur",
         scrolled && "border-b border-[var(--color-border-dark)]"
       )}
       style={{
-        backgroundColor: "oklch(14% 0.02 265 / 0.92)",
-        backdropFilter: "blur(12px)",
-        WebkitBackdropFilter: "blur(12px)",
+        backgroundColor: "oklch(14% 0.02 265)",
       }}
     >
       <nav className="relative mx-auto flex h-full max-w-5xl items-center justify-between px-6">
@@ -133,9 +131,7 @@ export function Nav() {
           mobileOpen ? "max-h-96" : "max-h-0"
         )}
         style={{
-          backgroundColor: "oklch(14% 0.02 265 / 0.96)",
-          backdropFilter: "blur(12px)",
-          WebkitBackdropFilter: "blur(12px)",
+          backgroundColor: "oklch(14% 0.02 265)",
         }}
       >
         <div className="flex flex-col gap-1 px-6 py-4">

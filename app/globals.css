@@ -207,6 +207,15 @@ h3 {
     drop-shadow(0 2px 6px oklch(0% 0 0 / 0.15));
 }
 
+/* Nav blur — desktop only, prevents iOS Safari bleed artifact on mobile */
+@media (min-width: 768px) {
+  .nav-blur {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background-color: oklch(14% 0.02 265 / 0.92) !important;
+  }
+}
+
 /* IntrospectFieldCycler — blinking caret */
 @keyframes caretBlink {
   0%,
