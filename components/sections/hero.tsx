@@ -54,7 +54,7 @@ export function Hero() {
   return (
     <section
       id="process"
-      className="relative min-h-screen bg-[var(--color-surface-dark)] pt-20 pb-16"
+      className="relative min-h-screen bg-[var(--color-surface-dark)] pt-[140px] pb-16"
     >
       <div className="mx-auto grid min-h-0 max-w-5xl grid-cols-1 gap-12 px-6 lg:grid-cols-[1fr_auto] lg:gap-16">
         {/* Left column — content */}
