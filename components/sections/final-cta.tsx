@@ -1,6 +1,7 @@
 // components/sections/final-cta.tsx — Introspect CTA + Final CTA, dark cohesive chapter
 "use client";
 
+import Link from "next/link";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { ANIMATION } from "@/lib/animations/constants";
@@ -23,9 +24,9 @@ export function FinalCTA() {
       id="contact"
       className="relative overflow-hidden bg-[var(--color-surface-dark)] py-20"
     >
-      <div className="mx-auto grid max-w-5xl grid-cols-1 gap-16 px-6 lg:grid-cols-[1fr_1fr] lg:gap-24">
-        {/* Left column */}
-        <div>
+      <div className="mx-auto grid max-w-5xl grid-cols-1 gap-8 px-6 lg:grid-cols-[1fr_1fr] lg:gap-24">
+        {/* Left column — intro content + desktop-only bullets */}
+        <div className="order-1 lg:order-none">
           <motion.svg
             viewBox="0 0 48 64"
             className="mb-6 h-16 w-12 text-[var(--color-text-on-dark)]"
@@ -66,12 +67,45 @@ export function FinalCTA() {
             Good builds start with good questions. Introspect is how we make sure
             we understand your project before writing a single line of code —
             the project, the purpose behind it, and what done actually looks
-            like. Takes about 5–10 minutes. We'll have a working demo
+            like. Takes about 5–10 minutes. We&#39;ll have a working demo
             within 48 hours, completely free.
           </motion.p>
 
-          {/* Numbered points under description */}
-          <div className="mb-10 flex flex-col gap-6">
+          {/* Desktop-only numbered points */}
+          <div className="hidden lg:flex mb-10 flex-col gap-6">
+            {BULLETS.map((text, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, x: -12 }}
+                animate={isInView ? { opacity: 1, x: 0 } : {}}
+                transition={{
+                  delay: 0.55 + i * 0.1,
+                  duration: ANIMATION.duration.normal / 1000,
+                }}
+                className="flex items-start gap-4"
+              >
+                <span
+                  className="font-[family-name:var(--font-dm-serif)] text-2xl text-accent opacity-50"
+                  aria-hidden
+                >
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span className="font-medium text-[var(--color-text-on-dark)]">
+                  {text}
+                </span>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {/* Right column — animation card (footer hidden on mobile via CSS) */}
+        <div className="order-2 lg:order-none mt-0 lg:mt-24">
+          <IntrospectFieldCycler />
+        </div>
+
+        {/* Mobile-only: bullets + standalone CTA below the animation */}
+        <div className="order-3 flex flex-col gap-8 lg:hidden">
+          <div className="flex flex-col gap-6">
             {BULLETS.map((text, i) => (
               <motion.div
                 key={i}
@@ -96,11 +130,13 @@ export function FinalCTA() {
             ))}
           </div>
 
-        </div>
-
-        {/* Right column — Introspect field cycler card (Start button inside card) */}
-        <div className="mt-16 lg:mt-24">
-          <IntrospectFieldCycler />
+          <Link
+            href="/introspect"
+            className="inline-flex items-center gap-2 self-start rounded-full bg-accent px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
+          >
+            Start Introspect
+            <span>→</span>
+          </Link>
         </div>
       </div>
     </section>

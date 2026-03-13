@@ -31,12 +31,12 @@ export function Accordion({ items, className }: AccordionProps) {
         return (
           <div
             key={id}
-            className="border-b border-[var(--color-border-light)] py-5"
+            className="border-b border-[var(--color-border-light)] py-3 sm:py-5"
           >
             <button
               type="button"
               onClick={() => toggle(id)}
-              className="flex w-full min-h-[48px] cursor-pointer items-center justify-between gap-4 py-2 text-left transition-colors hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+              className="flex w-full min-h-[44px] sm:min-h-[48px] cursor-pointer items-center justify-between gap-3 sm:gap-4 py-2 text-left transition-colors hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
               aria-expanded={isOpen}
               aria-controls={`accordion-${id}`}
               id={`accordion-trigger-${id}`}

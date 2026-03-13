@@ -52,7 +52,7 @@ export function WelcomeScreen() {
         {/* Animated "I" logo mark */}
         <motion.svg
           viewBox="0 0 48 64"
-          className="mb-6 h-16 w-12 text-white"
+          className="mb-3 md:mb-6 h-12 w-9 md:h-16 md:w-12 text-white"
           initial={{ pathLength: 0, opacity: 0.8 }}
           animate={{ pathLength: 1, opacity: 1 }}
           transition={{
@@ -75,7 +75,7 @@ export function WelcomeScreen() {
 
         {/* INTROSPECT */}
         <motion.h1
-          className="mb-4 text-lg font-medium tracking-[0.3em] text-white/60"
+          className="mb-3 md:mb-4 text-lg font-medium tracking-[0.3em] text-white/60"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8, duration: ANIMATION.duration.normal / 1000 }}
@@ -85,7 +85,7 @@ export function WelcomeScreen() {
 
         {/* Thin rule */}
         <motion.hr
-          className="mb-4 h-px w-10 bg-white/30"
+          className="mb-3 md:mb-4 h-px w-10 bg-white/30"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.2, duration: ANIMATION.duration.normal / 1000 }}
@@ -93,7 +93,7 @@ export function WelcomeScreen() {
 
         {/* Tagline — materializes softly, left-to-right, like appearing out of thin air */}
         <motion.p
-          className="mb-8 text-xl font-medium text-white/85 md:text-2xl"
+          className="mb-5 md:mb-8 text-xl font-medium text-white/85 md:text-2xl"
           initial="hidden"
           animate="visible"
           variants={{
@@ -129,7 +129,7 @@ export function WelcomeScreen() {
         <motion.button
           type="button"
           onClick={advanceFromWelcome}
-          className="group inline-flex min-h-[48px] items-center gap-2 rounded-lg border border-white bg-transparent px-8 py-3 text-base font-medium text-white transition-all duration-200 hover:bg-white hover:text-[oklch(0.45_0.18_250)]"
+          className="group inline-flex min-h-[44px] md:min-h-[48px] items-center gap-2 rounded-lg border border-white bg-transparent px-8 py-3 text-base font-medium text-white transition-all duration-200 hover:bg-white hover:text-[oklch(0.45_0.18_250)]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{

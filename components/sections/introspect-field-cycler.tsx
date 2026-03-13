@@ -627,8 +627,8 @@ export function IntrospectFieldCycler() {
         </motion.div>
       </div>
 
-      {/* Card footer — Start CTA */}
-      <div className="shrink-0 border-t border-white/10 px-6 py-4">
+      {/* Card footer — Start CTA (desktop only; mobile renders standalone button outside card) */}
+      <div className="hidden lg:block shrink-0 border-t border-white/10 px-6 py-4">
         <Link
           href="/introspect"
           className="group flex items-center justify-between text-sm text-white/50 transition-colors duration-200 hover:text-white/90"

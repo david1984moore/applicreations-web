@@ -37,7 +37,7 @@ export function ColorInput({ value, onChange }: ColorInputProps) {
   }
 
   const baseInputClass =
-    'rounded-xl border border-[oklch(25%_0_0)] bg-[oklch(15%_0_0)] px-4 py-3 text-[oklch(95%_0_0)] placeholder:text-[oklch(50%_0_0)] outline-none transition-colors duration-150 focus:border-[oklch(58%_0.20_240)]'
+    'rounded-xl border border-[oklch(25%_0_0)] bg-[oklch(15%_0_0)] px-4 py-3 text-[oklch(95%_0_0)] placeholder:text-[oklch(50%_0_0)] outline-none transition-colors duration-150 focus:border-[oklch(57%_0.15_250)]'
 
   return (
     <div className="space-y-4">
@@ -47,7 +47,7 @@ export function ColorInput({ value, onChange }: ColorInputProps) {
             <span className="text-sm text-[oklch(70%_0_0)]">{label}</span>
             <div className="flex items-center gap-2">
               <label
-                className="h-12 w-12 shrink-0 rounded-xl border border-[oklch(25%_0_0)] bg-[oklch(15%_0_0)] flex items-center justify-center overflow-hidden hover:border-[oklch(58%_0.20_240)] transition-colors cursor-pointer"
+                className="h-12 w-12 shrink-0 rounded-xl border border-[oklch(25%_0_0)] bg-[oklch(15%_0_0)] flex items-center justify-center overflow-hidden hover:border-[oklch(57%_0.15_250)] transition-colors cursor-pointer"
                 style={swatches[i] ? { backgroundColor: swatches[i] } : undefined}
                 aria-label={`Pick ${label.toLowerCase()} color`}
               >

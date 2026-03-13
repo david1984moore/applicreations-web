@@ -55,7 +55,7 @@ export function MultiSelect({
             className={`
               w-full text-left px-5 py-4 rounded-xl border transition-all duration-150
               ${isSelected
-                ? 'border-[oklch(58%_0.20_240)] bg-[oklch(58%_0.20_240)]/10 text-[oklch(95%_0_0)]'
+                ? 'border-[oklch(57%_0.15_250)] bg-[oklch(57%_0.15_250)]/10 text-[oklch(95%_0_0)]'
                 : 'border-[oklch(25%_0_0)] bg-[oklch(15%_0_0)] text-[oklch(80%_0_0)] hover:border-[oklch(40%_0_0)] hover:text-[oklch(95%_0_0)]'
               }
             `}
@@ -65,7 +65,7 @@ export function MultiSelect({
                 className={`
                   mt-0.5 w-5 h-5 rounded border-2 flex-shrink-0 flex items-center justify-center
                   ${isSelected
-                    ? 'border-[oklch(58%_0.20_240)] bg-[oklch(58%_0.20_240)]'
+                    ? 'border-[oklch(57%_0.15_250)] bg-[oklch(57%_0.15_250)]'
                     : 'border-[oklch(40%_0_0)]'
                   }
                 `}
@@ -92,7 +92,7 @@ export function MultiSelect({
                       onChange(value, v)
                     }}
                     placeholder="Tell us more..."
-                    className="mt-2 w-full bg-transparent border-b border-[oklch(40%_0_0)] text-[oklch(95%_0_0)] text-sm pb-1 outline-none placeholder:text-[oklch(50%_0_0)] focus:border-[oklch(58%_0.20_240)]"
+                    className="mt-2 w-full bg-transparent border-b border-[oklch(40%_0_0)] text-[oklch(95%_0_0)] text-sm pb-1 outline-none placeholder:text-[oklch(50%_0_0)] focus:border-[oklch(57%_0.15_250)]"
                   />
                 )}
               </div>

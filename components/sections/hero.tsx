@@ -1,7 +1,7 @@
 // components/sections/hero.tsx — Hero with left-anchored editorial layout, ambient orb, process steps
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
@@ -35,8 +35,22 @@ const STEPS = [
 ] as const;
 
 export function Hero() {
-  const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
+  const [isMobile, setIsMobile] = useState(false);
+  const [expandedIds, setExpandedIds] = useState<Set<string>>(() => new Set());
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  useEffect(() => {
+    if (isMobile) {
+      setExpandedIds(new Set(STEPS.map((s) => s.num)));
+    }
+  }, [isMobile]);
 
   const toggle = (num: string) => {
     const wasExpanded = expandedIds.has(num);
@@ -87,8 +101,15 @@ export function Hero() {
             <Button asChild variant="primary" onDark>
               <a href="/introspect">Get a Quote →</a>
             </Button>
-            <Button asChild variant="ghost" onDark>
-              <a href="#work">See Our Work</a>
+            <Button
+              variant="ghost"
+              onDark
+              onClick={() => {
+                const el = document.getElementById("work");
+                if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+              }}
+            >
+              See Our Work
             </Button>
           </motion.div>
         </div>
@@ -109,79 +130,111 @@ export function Hero() {
       {/* Process steps row — horizontal strip at bottom of hero */}
       <div className="mx-auto mt-20 max-w-5xl px-6">
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-          {STEPS.map(({ num, timeframe, title, body }) => {
+          {STEPS.map(({ num, timeframe, title, body }, index) => {
+            const alignRight = index % 2 === 0;
             const isExpanded =
-              expandedIds.has(num) || hoveredId === num;
+              expandedIds.has(num) || (!isMobile && hoveredId === num);
+            const slideX = isMobile ? (alignRight ? -24 : 24) : 0;
+
             return (
-              <button
-                key={num}
-                type="button"
-                onClick={() => toggle(num)}
-                onMouseEnter={() => setHoveredId(num)}
-                onMouseLeave={() => setHoveredId(null)}
-                className="flex w-full cursor-pointer flex-col items-center text-center transition-colors"
-                aria-expanded={expandedIds.has(num)}
-                aria-controls={`process-body-${num}`}
-                aria-label={
-                  expandedIds.has(num) ? `Collapse ${title}` : `Expand ${title}`
-                }
-                id={`process-trigger-${num}`}
+              <motion.div
+                key={num + "-wrapper"}
+                initial={isMobile ? { opacity: 0, y: 16 } : false}
+                whileInView={isMobile ? { opacity: 1, y: 0 } : undefined}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
               >
-                <span className="mb-2 flex flex-col items-center">
-                  <p
-                    className="process-num-glass mb-1 font-[family-name:var(--font-dm-sans)] text-6xl font-thin"
-                    aria-hidden
-                  >
-                    {num}
-                  </p>
-                  <p
-                    className="mb-2 font-[family-name:var(--font-dm-sans)] text-[var(--text-eyebrow)] uppercase tracking-[var(--tracking-eyebrow)] text-accent"
-                    style={{ fontSize: "var(--text-eyebrow)" }}
-                  >
-                    {timeframe}
-                  </p>
-                  <h3 className="mb-2 text-xl font-semibold text-[var(--color-text-on-dark)]">
-                    {title}
-                  </h3>
+                <button
+                  type="button"
+                  onClick={() => toggle(num)}
+                  onMouseEnter={() => setHoveredId(num)}
+                  onMouseLeave={() => setHoveredId(null)}
+                  className={cn(
+                    "flex w-full cursor-pointer flex-col transition-colors",
+                    isMobile
+                      ? alignRight
+                        ? "items-end text-right"
+                        : "items-start text-left"
+                      : "items-center text-center"
+                  )}
+                  aria-expanded={expandedIds.has(num)}
+                  aria-controls={`process-body-${num}`}
+                  aria-label={
+                    expandedIds.has(num) ? `Collapse ${title}` : `Expand ${title}`
+                  }
+                  id={`process-trigger-${num}`}
+                >
                   <span
                     className={cn(
-                      "flex items-center justify-center text-accent transition-transform duration-200",
-                      isExpanded && "rotate-180"
+                      "mb-2 flex flex-col",
+                      isMobile
+                        ? alignRight
+                          ? "items-end"
+                          : "items-start"
+                        : "items-center"
                     )}
                   >
-                    <svg
-                      className="h-4 w-5 shrink-0"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth={4}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
+                    <p
+                      className="process-num-glass mb-1 font-[family-name:var(--font-dm-sans)] text-6xl font-thin"
                       aria-hidden
                     >
-                      <path d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </span>
-                </span>
-                <AnimatePresence initial={false}>
-                  {isExpanded && (
-                    <motion.div
-                      id={`process-body-${num}`}
-                      role="region"
-                      aria-labelledby={`process-trigger-${num}`}
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={TRANSITION_REVEAL}
-                      className="w-full overflow-hidden"
+                      {num}
+                    </p>
+                    <p
+                      className="mb-2 font-[family-name:var(--font-dm-sans)] text-[var(--text-eyebrow)] uppercase tracking-[var(--tracking-eyebrow)] text-accent"
+                      style={{ fontSize: "var(--text-eyebrow)" }}
                     >
-                      <p className="mx-auto max-w-[260px] text-balance text-[15px] leading-relaxed text-[var(--color-text-on-dark-muted)]">
-                        {body}
-                      </p>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </button>
+                      {timeframe}
+                    </p>
+                    <h3 className="mb-2 text-xl font-semibold text-[var(--color-text-on-dark)]">
+                      {title}
+                    </h3>
+                    <span
+                      className={cn(
+                        "flex items-center justify-center text-accent transition-transform duration-200",
+                        isExpanded && "rotate-180"
+                      )}
+                    >
+                      <svg
+                        className="h-4 w-5 shrink-0"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth={4}
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        aria-hidden
+                      >
+                        <path d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </span>
+                  </span>
+                  <AnimatePresence initial={false}>
+                    {isExpanded && (
+                      <motion.div
+                        key="content"
+                        id={`process-body-${num}`}
+                        role="region"
+                        aria-labelledby={`process-trigger-${num}`}
+                        initial={{ height: 0, opacity: 0, x: slideX }}
+                        animate={{ height: "auto", opacity: 1, x: 0 }}
+                        exit={{ height: 0, opacity: 0, x: slideX }}
+                        transition={TRANSITION_REVEAL}
+                        className="w-full overflow-hidden"
+                      >
+                        <p
+                          className={cn(
+                            "text-balance text-[15px] leading-relaxed text-[var(--color-text-on-dark-muted)]",
+                            !isMobile && "mx-auto max-w-[260px]"
+                          )}
+                        >
+                          {body}
+                        </p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </button>
+              </motion.div>
             );
           })}
         </div>

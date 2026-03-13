@@ -2,12 +2,11 @@
 
 import { useEffect } from 'react'
 import Link from 'next/link'
-import { Check, Mail } from 'lucide-react'
+import { Check } from 'lucide-react'
 import { useQuestionnaireStore } from '@/stores/questionnaireStore'
 
 const CALENDLY_URL =
   process.env.NEXT_PUBLIC_CALENDLY_URL ?? 'https://calendly.com/applicreations'
-const DAVID_EMAIL = 'david1984moore@gmail.com'
 
 function getFirstName(answers: Record<string, { value: string | string[] }>): string {
   const nameVal = answers['q1_name']?.value
@@ -34,7 +33,7 @@ export default function IntrospectCompletePage() {
         {/* Zone 1 — Confirmation header */}
         <section className="space-y-4 text-center">
           <div
-            className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[oklch(58%_0.20_240)]/20 text-[oklch(58%_0.20_240)]"
+            className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[oklch(57%_0.15_250)]/20 text-[oklch(57%_0.15_250)]"
             aria-hidden
           >
             <Check size={24} strokeWidth={2.5} />
@@ -47,38 +46,20 @@ export default function IntrospectCompletePage() {
           </p>
         </section>
 
-        {/* Zone 2 — Email status */}
-        <section className="grid gap-4 sm:grid-cols-2">
-          <div className="rounded-xl border border-[oklch(25%_0_0)] bg-[oklch(14%_0_0)] p-6">
-            <div className="mb-3 flex items-center gap-2 text-[oklch(58%_0.20_240)]">
-              <Mail size={18} strokeWidth={2} />
-              <span className="text-sm font-medium">Sent to you</span>
+        {/* Zone 2 — Confirmation */}
+        <section>
+          <div className="rounded-xl border border-[oklch(25%_0_0)] bg-[oklch(14%_0_0)] px-6 py-5 text-center">
+            <div className="mb-2 flex justify-center">
+              <Check className="h-5 w-5 text-green-400" />
             </div>
-            <p className="text-[oklch(95%_0_0)] font-medium">
-              {clientEmail || 'Your email'}
+            <p className="text-sm font-medium text-[oklch(95%_0_0)]">
+              Your blueprint has been sent to Applicreations!
             </p>
-            <p className="mt-1 text-sm text-[oklch(60%_0_0)]">
-              Your project summary
-            </p>
-            <p className="mt-3 inline-flex items-center gap-1.5 text-xs text-[oklch(58%_0.20_240)]">
-              <Check size={14} strokeWidth={2.5} />
-              Sent
-            </p>
-          </div>
-
-          <div className="rounded-xl border border-[oklch(25%_0_0)] bg-[oklch(14%_0_0)] p-6">
-            <div className="mb-3 flex items-center gap-2 text-[oklch(58%_0.20_240)]">
-              <Mail size={18} strokeWidth={2} />
-              <span className="text-sm font-medium">Sent to David</span>
-            </div>
-            <p className="text-[oklch(95%_0_0)] font-medium">{DAVID_EMAIL}</p>
-            <p className="mt-1 text-sm text-[oklch(60%_0_0)]">
-              Full project specification
-            </p>
-            <p className="mt-3 inline-flex items-center gap-1.5 text-xs text-[oklch(58%_0.20_240)]">
-              <Check size={14} strokeWidth={2.5} />
-              Sent
-            </p>
+            {clientEmail && (
+              <p className="mt-1 text-xs text-[oklch(60%_0_0)]">
+                A copy was also sent to {clientEmail}
+              </p>
+            )}
           </div>
         </section>
 
@@ -88,21 +69,21 @@ export default function IntrospectCompletePage() {
             href={CALENDLY_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block rounded-lg bg-[oklch(58%_0.20_240)] px-8 py-4 text-base font-medium text-white transition-opacity hover:opacity-90"
+            className="inline-block rounded-lg bg-[oklch(57%_0.15_250)] px-8 py-4 text-base font-medium text-white transition-opacity hover:opacity-90"
           >
             Schedule your discovery call
           </Link>
           <p className="max-w-md mx-auto text-sm leading-[1.6] text-[oklch(60%_0_0)]">
-            David will review your brief before the call. Expect a 30-minute
+            We&apos;ll review your brief before the call. Expect a 30-minute
             conversation to align on scope and timeline.
           </p>
           <p className="text-sm text-[oklch(50%_0_0)]">
             Questions?{' '}
             <a
-              href={`mailto:${DAVID_EMAIL}`}
-              className="text-[oklch(58%_0.20_240)] underline hover:no-underline"
+              href="mailto:solutions@applicreations.com"
+              className="text-[oklch(57%_0.15_250)] underline hover:no-underline"
             >
-              {DAVID_EMAIL}
+              solutions@applicreations.com
             </a>
           </p>
         </section>

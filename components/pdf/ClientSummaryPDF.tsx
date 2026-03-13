@@ -164,7 +164,7 @@ export const ClientSummaryPDF: React.FC<Props> = ({ summary }) => (
       </View>
 
       <Text style={styles.footer}>
-        Applicreations | david1984moore@gmail.com | www.applicreations.com
+        Applicreations | solutions@applicreations.com | www.applicreations.com
       </Text>
     </Page>
   </Document>

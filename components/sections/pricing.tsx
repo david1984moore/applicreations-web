@@ -1,96 +1,67 @@
-// components/sections/pricing.tsx — Two pricing cards, hosting included
+// components/sections/pricing.tsx — Three pricing packages, mobile tabbed layout
 "use client";
 
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
+import { cn } from "@/lib/utils";
 import { fadeInUp, VIEWPORT_SECTION } from "@/lib/animations";
 
-const STARTER_FEATURES = [
-  "Up to 5 pages",
-  "Custom design",
-  "Mobile-ready",
-  "SEO basics",
-  "Contact form",
-  "Hosting included",
-  "30 days support",
+const PACKAGES = [
+  {
+    id: "basic",
+    name: "Basic",
+    price: 1499,
+    popular: false,
+    features: [
+      "1-page website",
+      "Custom design",
+      "Mobile-ready",
+      "Contact form",
+      "SEO basics",
+      "30 days support",
+    ],
+  },
+  {
+    id: "pro",
+    name: "Pro",
+    price: 2599,
+    popular: true,
+    features: [
+      "Up to 5 pages",
+      "Custom design",
+      "Mobile-ready",
+      "Advanced SEO",
+      "Contact form",
+      "Email integration",
+      "30 days support",
+      "Hosting included",
+    ],
+  },
+  {
+    id: "ultimate",
+    name: "Ultimate",
+    price: 6499,
+    popular: false,
+    features: [
+      "Up to 10 pages",
+      "Custom design",
+      "Mobile-ready",
+      "Advanced SEO",
+      "Contact form",
+      "Email integration",
+      "CMS for updates",
+      "1 year hosting & support",
+      "May include custom web app (not just a website)",
+    ],
+  },
 ] as const;
 
-const PRO_FEATURES = [
-  "Up to 10 pages",
-  "Custom design",
-  "Mobile-ready",
-  "Advanced SEO",
-  "Email integration",
-  "Hosting included",
-  "60 days support",
-  "CMS for updates",
-] as const;
-
-const FEATURES_VISIBLE_MOBILE = 4;
-
-function FeatureItem({ text }: { text: string }) {
-  return (
-    <li className="flex items-center gap-2">
-      <span className="text-accent">·</span>
-      {text}
-    </li>
-  );
-}
-
-function FeatureList({
-  features,
-  expanded,
-  onToggle,
-}: {
-  features: readonly string[];
-  expanded: boolean;
-  onToggle: () => void;
-}) {
-  const visible = expanded ? features : features.slice(0, FEATURES_VISIBLE_MOBILE);
-  const hasMore = features.length > FEATURES_VISIBLE_MOBILE;
-
-  return (
-    <div className="mb-6 flex-1">
-      <ul className="hidden space-y-2 text-sm text-[var(--color-text-secondary)] md:block">
-        {features.map((f) => (
-          <FeatureItem key={f} text={f} />
-        ))}
-      </ul>
-      <ul className="space-y-2 text-sm text-[var(--color-text-secondary)] md:hidden">
-        {visible.map((f) => (
-          <FeatureItem key={f} text={f} />
-        ))}
-        {hasMore && !expanded && (
-          <li>
-            <button
-              type="button"
-              onClick={onToggle}
-              className="flex min-h-[44px] w-full cursor-pointer items-center text-left text-sm font-medium text-accent transition-colors hover:text-accent-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
-            >
-              Show all features
-            </button>
-          </li>
-        )}
-        {hasMore && expanded && (
-          <li>
-            <button
-              type="button"
-              onClick={onToggle}
-              className="flex min-h-[44px] w-full cursor-pointer items-center text-left text-sm font-medium text-accent transition-colors hover:text-accent-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
-            >
-              Show less
-            </button>
-          </li>
-        )}
-      </ul>
-    </div>
-  );
-}
+type PackageId = (typeof PACKAGES)[number]["id"];
 
 export function Pricing() {
-  const [starterExpanded, setStarterExpanded] = useState(false);
-  const [proExpanded, setProExpanded] = useState(false);
+  const [activeTab, setActiveTab] = useState<PackageId>("pro");
+  const [mobileAppAddon, setMobileAppAddon] = useState(false);
 
   return (
     <section
@@ -111,60 +82,144 @@ export function Pricing() {
         >
           Pricing
         </motion.h2>
+
+        {/* ── Mobile: tabbed single-card view ── */}
         <motion.div
           variants={fadeInUp}
           initial="hidden"
           whileInView="visible"
           viewport={VIEWPORT_SECTION}
-          className="grid gap-6 md:grid-cols-2"
+          className="md:hidden"
         >
-          {/* Starter */}
-          <div className="order-2 flex flex-col rounded-xl border border-[var(--color-border-light)] bg-white p-10 shadow-sm md:order-1">
-            <h3 className="mb-2 text-lg font-semibold text-[var(--color-text-primary)]">
-              Starter
-            </h3>
-            <p className="mb-4 font-[family-name:var(--font-dm-serif)] text-5xl text-[var(--color-text-primary)]">
-              $2,500
-              <span className="font-[family-name:var(--font-dm-sans)] text-sm font-normal text-[var(--color-text-secondary)]">
-                /project
-              </span>
-            </p>
-            <FeatureList
-              features={STARTER_FEATURES}
-              expanded={starterExpanded}
-              onToggle={() => setStarterExpanded((e) => !e)}
-            />
-            <Button asChild variant="ghost">
-              <a href="/introspect">Get Started</a>
-            </Button>
+          <div className="mb-6 flex overflow-hidden rounded-lg border border-[var(--color-border-light)]">
+            {PACKAGES.map((pkg) => (
+              <button
+                key={pkg.id}
+                type="button"
+                onClick={() => setActiveTab(pkg.id)}
+                className={cn(
+                  "flex-1 py-2 text-sm font-medium transition-colors",
+                  activeTab === pkg.id
+                    ? "bg-accent text-white"
+                    : "bg-transparent text-[var(--color-text-secondary)] hover:bg-accent/10"
+                )}
+              >
+                {pkg.name}
+              </button>
+            ))}
           </div>
 
-          {/* Pro — Popular */}
-          <div
-            className="relative order-1 flex flex-col rounded-xl border-2 border-accent p-10 shadow-sm md:order-2"
-            style={{ backgroundColor: "var(--color-accent-subtle)" }}
-          >
-            <span className="absolute -top-3 left-6 rounded-full bg-accent px-3 py-1 text-xs font-semibold text-white">
-              Popular
-            </span>
-            <h3 className="mb-2 text-lg font-semibold text-[var(--color-text-primary)]">
-              Pro
-            </h3>
-            <p className="mb-4 font-[family-name:var(--font-dm-serif)] text-5xl text-[var(--color-text-primary)]">
-              $4,500
-              <span className="font-[family-name:var(--font-dm-sans)] text-sm font-normal text-[var(--color-text-secondary)]">
-                /project
-              </span>
-            </p>
-            <FeatureList
-              features={PRO_FEATURES}
-              expanded={proExpanded}
-              onToggle={() => setProExpanded((e) => !e)}
-            />
-            <Button asChild variant="primary">
-              <a href="/introspect">Get Started →</a>
-            </Button>
-          </div>
+          {PACKAGES.filter((pkg) => pkg.id === activeTab).map((pkg) => (
+            <div
+              key={pkg.id}
+              className="rounded-2xl border border-[var(--color-border-light)] bg-white p-6 shadow-sm"
+            >
+              {pkg.popular && (
+                <span className="mb-3 inline-block rounded-full bg-accent px-3 py-1 text-xs font-semibold text-white">
+                  Popular
+                </span>
+              )}
+              <h3 className="mb-1 text-xl font-semibold text-[var(--color-text-primary)]">
+                {pkg.name}
+              </h3>
+              <p className="mb-1 font-[family-name:var(--font-dm-serif)] text-4xl text-[var(--color-text-primary)]">
+                ${pkg.price.toLocaleString()}
+                <span className="font-[family-name:var(--font-dm-sans)] text-base font-normal text-[var(--color-text-secondary)]">
+                  /project
+                </span>
+              </p>
+
+              <ul className="mb-6 mt-4 space-y-2">
+                {pkg.features.map((f) => (
+                  <li key={f} className="flex items-start gap-2 text-sm">
+                    <span className="mt-0.5 text-accent">✓</span>
+                    <span>{f}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <label className="mb-6 flex cursor-pointer items-center gap-3 border-t border-[var(--color-border-light)] py-3">
+                <input
+                  type="checkbox"
+                  checked={mobileAppAddon}
+                  onChange={(e) => setMobileAppAddon(e.target.checked)}
+                  className="h-4 w-4 accent-[var(--color-accent)]"
+                />
+                <span className="text-sm">
+                  Add native mobile app
+                  <span className="text-[var(--color-text-secondary)]">
+                    {" "}— $4,499
+                  </span>
+                </span>
+              </label>
+
+              {mobileAppAddon && (
+                <p className="-mt-4 mb-4 pl-7 text-xs text-[var(--color-text-secondary)]">
+                  iOS + Android companion app. Scoped separately after project
+                  kickoff.
+                </p>
+              )}
+
+              <Button
+                asChild
+                variant={pkg.popular ? "primary" : "ghost"}
+                className="w-full"
+              >
+                <a href="/introspect">Get Started →</a>
+              </Button>
+            </div>
+          ))}
+        </motion.div>
+
+        {/* ── Desktop: 3-card grid ── */}
+        <motion.div
+          variants={fadeInUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={VIEWPORT_SECTION}
+          className="hidden gap-6 md:grid md:grid-cols-3"
+        >
+          {PACKAGES.map((pkg) => (
+            <div
+              key={pkg.id}
+              className={cn(
+                "flex flex-col rounded-2xl border p-6",
+                pkg.popular
+                  ? "border-accent bg-accent/5 shadow-md ring-1 ring-accent"
+                  : "border-[var(--color-border-light)] bg-white shadow-sm"
+              )}
+            >
+              {pkg.popular && (
+                <span className="mb-3 inline-block rounded-full bg-accent px-3 py-1 text-xs font-semibold text-white">
+                  Popular
+                </span>
+              )}
+              <h3 className="mb-1 text-xl font-semibold text-[var(--color-text-primary)]">
+                {pkg.name}
+              </h3>
+              <p className="mb-1 font-[family-name:var(--font-dm-serif)] text-4xl text-[var(--color-text-primary)]">
+                ${pkg.price.toLocaleString()}
+                <span className="font-[family-name:var(--font-dm-sans)] text-base font-normal text-[var(--color-text-secondary)]">
+                  /project
+                </span>
+              </p>
+              <ul className="mb-6 mt-4 flex-1 space-y-2">
+                {pkg.features.map((f) => (
+                  <li key={f} className="flex items-start gap-2 text-sm">
+                    <span className="mt-0.5 text-accent">✓</span>
+                    <span>{f}</span>
+                  </li>
+                ))}
+              </ul>
+              <Button
+                asChild
+                variant={pkg.popular ? "primary" : "ghost"}
+                className="w-full"
+              >
+                <a href="/introspect">Get Started →</a>
+              </Button>
+            </div>
+          ))}
         </motion.div>
       </div>
     </section>

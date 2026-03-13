@@ -225,7 +225,7 @@ function ImageWithHotspots({
 
   return (
     <div
-      className={`group relative aspect-9/19 overflow-visible rounded-xl border border-[var(--color-border-light)] bg-[var(--color-surface-light)] shadow-md ${className}`}
+      className={`group relative h-[200px] md:h-auto md:aspect-9/19 overflow-hidden md:overflow-visible rounded-xl border border-[var(--color-border-light)] bg-[var(--color-surface-light)] shadow-md ${className}`}
     >
       <div className="absolute inset-0 overflow-hidden rounded-xl">
         <Image
@@ -238,7 +238,7 @@ function ImageWithHotspots({
           className="object-cover object-top"
         />
       </div>
-      <div className="absolute inset-0" aria-hidden>
+      <div className="absolute inset-0 hidden md:block" aria-hidden>
         {relevantHighlights.map(({ text, placement, originalIndex }) => (
           <Hotspot
             key={originalIndex}
@@ -283,8 +283,8 @@ function ProjectPanel({ project }: { project: (typeof PROJECTS)[number] }) {
       transition={TRANSITION_REVEAL}
       className="space-y-8"
     >
-      <div className="grid grid-cols-1 gap-8 md:grid-cols-[minmax(0,160px)_280px_1fr] md:gap-10">
-        <div className="order-2 min-w-0 md:order-1 md:flex md:items-center md:pr-4">
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-[minmax(0,160px)_280px_1fr] md:gap-10">
+        <div className="hidden min-w-0 md:order-1 md:flex md:items-center md:pr-4">
           <AnimatePresence mode="wait">
             {displayedHighlight ? (
               <motion.div
@@ -321,12 +321,27 @@ function ProjectPanel({ project }: { project: (typeof PROJECTS)[number] }) {
           </div>
         </div>
 
-        <div className="order-3 flex min-w-0 flex-col gap-5">
+        <div className="order-2 md:hidden">
+          <ul className="space-y-1">
+            {project.highlights.map((h, i) => (
+              <li key={i} className="flex items-start gap-2 text-xs leading-snug">
+                <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-accent text-[10px] font-semibold text-white">
+                  {i + 1}
+                </span>
+                <span className="text-[var(--color-text-secondary)]">
+                  {h.text}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="order-3 flex min-w-0 flex-col gap-1.5 md:gap-5">
           <div>
-            <h3 className="font-[family-name:var(--font-dm-serif)] text-3xl text-[var(--color-text-primary)]">
+            <h3 className="font-[family-name:var(--font-dm-serif)] text-lg md:text-3xl text-[var(--color-text-primary)]">
               {project.name}
             </h3>
-            <p className="mt-1 text-base text-[var(--color-text-secondary)]">
+            <p className="mt-0.5 md:mt-1 text-xs md:text-base text-[var(--color-text-secondary)]">
               {project.tagline}
             </p>
           </div>
@@ -339,7 +354,7 @@ function ProjectPanel({ project }: { project: (typeof PROJECTS)[number] }) {
             {project.linkLabel}
             <span aria-hidden>↗</span>
           </a>
-          <div className="flex gap-2">
+          <div className="hidden md:flex gap-2">
             {project.images.map((img, i) => (
               <button
                 key={i}
@@ -365,7 +380,7 @@ function ProjectPanel({ project }: { project: (typeof PROJECTS)[number] }) {
               </button>
             ))}
           </div>
-          <p className="wrap-break-word text-sm leading-relaxed text-[var(--color-text-secondary)]">
+          <p className="wrap-break-word text-xs md:text-sm leading-snug md:leading-relaxed text-[var(--color-text-secondary)]">
             {project.synopsis}
           </p>
         </div>
@@ -398,7 +413,7 @@ export function Work() {
   return (
     <section
       id="work"
-      className="bg-[var(--color-surface-light)] py-16 sm:py-20"
+      className="bg-[var(--color-surface-light)] py-6 sm:py-20"
     >
       <div className="mx-auto max-w-5xl px-6">
         <motion.div
@@ -406,7 +421,7 @@ export function Work() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={VIEWPORT_REVEAL}
           transition={TRANSITION_REVEAL}
-          className="mb-10 text-left"
+          className="mb-4 md:mb-10 text-left"
         >
           <h2
             className="font-[family-name:var(--font-dm-serif)] text-[var(--color-text-primary)]"
@@ -417,7 +432,7 @@ export function Work() {
           >
             Our Work
           </h2>
-          <p className="mt-3 max-w-2xl text-lg text-[var(--color-text-secondary)]">
+          <p className="mt-2 md:mt-3 max-w-2xl text-sm md:text-lg text-[var(--color-text-secondary)]">
             A peek at what we've built — custom web apps that feel native on
             your phone. Pick a project below to explore.
           </p>
@@ -460,7 +475,7 @@ export function Work() {
           role="tabpanel"
           id={`panel-${activeProjectId}`}
           aria-labelledby={`tab-${activeProjectId}`}
-          className="rounded-xl border border-[var(--color-border-light)] p-6 sm:p-8"
+          className="rounded-xl border border-[var(--color-border-light)] p-3 sm:p-8"
         >
           <AnimatePresence mode="wait">
             {PROJECTS.filter((p) => p.id === activeProjectId).map((project) => (
@@ -474,7 +489,7 @@ export function Work() {
           initial="hidden"
           whileInView="visible"
           viewport={VIEWPORT_SECTION}
-          className="mt-10"
+          className="mt-3 md:mt-10"
         >
           <Button asChild variant="primary">
             <a href="/introspect" className="inline-flex items-center gap-2">

@@ -96,7 +96,7 @@ export function QuestionnaireFlow() {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center px-6 py-12">
         <div className="max-w-md text-center">
-          <div className="mb-4 h-8 w-8 animate-spin rounded-full border-2 border-[oklch(58%_0.20_240)] border-t-transparent mx-auto" />
+          <div className="mb-4 h-8 w-8 animate-spin rounded-full border-2 border-[oklch(57%_0.15_250)] border-t-transparent mx-auto" />
           <p className="text-[oklch(95%_0_0)]">
             {completedAt ? 'Taking you to your confirmation...' : 'Generating your project scope...'}
           </p>
@@ -121,7 +121,7 @@ export function QuestionnaireFlow() {
               setError(null)
               handleComplete()
             }}
-            className="mt-6 px-6 py-3 rounded-lg bg-[oklch(58%_0.20_240)] text-white text-sm font-medium"
+            className="mt-6 px-6 py-3 rounded-lg bg-[oklch(57%_0.15_250)] text-white text-sm font-medium"
           >
             Try again
           </button>

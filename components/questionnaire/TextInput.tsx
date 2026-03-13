@@ -18,7 +18,7 @@ export function TextInput({
   onChange,
 }: TextInputProps) {
   const baseClass =
-    'w-full rounded-xl border border-[oklch(25%_0_0)] bg-[oklch(15%_0_0)] px-5 py-4 text-[oklch(95%_0_0)] placeholder:text-[oklch(50%_0_0)] outline-none transition-colors duration-150 focus:border-[oklch(58%_0.20_240)]'
+    'w-full rounded-xl border border-[oklch(25%_0_0)] bg-[oklch(15%_0_0)] px-5 py-4 text-[oklch(95%_0_0)] placeholder:text-[oklch(50%_0_0)] outline-none transition-colors duration-150 focus:border-[oklch(57%_0.15_250)]'
 
   if (inputType === 'textarea') {
     return (

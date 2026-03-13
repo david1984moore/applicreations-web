@@ -6,12 +6,13 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { scrollToSection } from "@/lib/scroll";
 
 const NAV_LINKS = [
-  { href: "#work", label: "Work" },
-  { href: "#process", label: "Process" },
-  { href: "#pricing", label: "Pricing" },
-  { href: "#faq", label: "FAQ" },
+  { targetId: "work", label: "Work" },
+  { targetId: "process", label: "Process" },
+  { targetId: "pricing", label: "Pricing" },
+  { targetId: "faq", label: "FAQ" },
 ] as const;
 
 export function Nav() {
@@ -28,8 +29,6 @@ export function Nav() {
     return () => window.removeEventListener("scroll", handler);
   }, []);
 
-  const handleAnchorClick = () => setMobileOpen(false);
-
   const handleLogoClick = (e: React.MouseEvent) => {
     if (pathname === "/") {
       e.preventDefault();
@@ -44,7 +43,7 @@ export function Nav() {
         scrolled && "border-b border-[var(--color-border-dark)]"
       )}
       style={{
-        backgroundColor: "oklch(14% 0.02 265)",
+        backgroundColor: "oklch(20% 0.022 265)",
       }}
     >
       <nav className="relative mx-auto flex h-full max-w-5xl items-center justify-between px-6">
@@ -65,18 +64,19 @@ export function Nav() {
         </Link>
 
         <div className="hidden items-center gap-8 md:flex">
-          {NAV_LINKS.map(({ href, label }) => (
-            <a
-              key={href}
-              href={href}
-              className="group relative cursor-pointer text-sm font-normal text-[var(--color-text-on-dark-muted)] transition-colors duration-200 hover:text-[var(--color-text-on-dark)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-surface-dark)]"
+          {NAV_LINKS.map(({ targetId, label }) => (
+            <button
+              key={targetId}
+              type="button"
+              onClick={() => scrollToSection(targetId)}
+              className="group relative cursor-pointer border-0 bg-transparent p-0 text-sm font-normal text-[var(--color-text-on-dark-muted)] transition-colors duration-200 hover:text-[var(--color-text-on-dark)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-surface-dark)]"
             >
               {label}
               <span
                 className="absolute -bottom-0.5 left-0 h-px w-full origin-left scale-x-0 bg-accent transition-transform duration-200 group-hover:scale-x-100"
                 aria-hidden
               />
-            </a>
+            </button>
           ))}
           {!isIntrospect && (
             <a
@@ -131,25 +131,28 @@ export function Nav() {
           mobileOpen ? "max-h-96" : "max-h-0"
         )}
         style={{
-          backgroundColor: "oklch(14% 0.02 265)",
+          backgroundColor: "oklch(20% 0.022 265)",
         }}
       >
         <div className="flex flex-col gap-1 px-6 py-4">
-          {NAV_LINKS.map(({ href, label }) => (
-            <a
-              key={href}
-              href={href}
-              className="cursor-pointer rounded-[6px] px-4 py-3 text-base font-medium text-[var(--color-text-on-dark)] transition-colors hover:bg-[var(--color-surface-mid)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-surface-dark)]"
-              onClick={handleAnchorClick}
+          {NAV_LINKS.map(({ targetId, label }) => (
+            <button
+              key={targetId}
+              type="button"
+              onClick={() => {
+                scrollToSection(targetId);
+                setMobileOpen(false);
+              }}
+              className="w-full cursor-pointer rounded-[6px] border-0 bg-transparent px-4 py-3 text-left text-base font-medium text-[var(--color-text-on-dark)] transition-colors hover:bg-[var(--color-surface-mid)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-surface-dark)]"
             >
               {label}
-            </a>
+            </button>
           ))}
           {!isIntrospect && (
           <Link
             href="/introspect"
             className="mt-2 block cursor-pointer rounded-[6px] border border-[var(--color-border-dark)] bg-transparent px-4 py-3 text-center text-base font-medium text-[var(--color-text-on-dark)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-surface-dark)] transition-colors hover:bg-[var(--color-surface-subtle)] hover:text-[var(--color-text-primary)]"
-            onClick={handleAnchorClick}
+            onClick={() => setMobileOpen(false)}
           >
               Introspect
             </Link>

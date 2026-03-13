@@ -122,7 +122,7 @@ export function QuestionCard({ question, onNext, onBack }: QuestionCardProps) {
           className={`
             px-6 py-3 rounded-lg text-sm font-medium transition-all duration-150
             ${canProceed
-              ? 'bg-[oklch(58%_0.20_240)] text-white hover:scale-[1.02] active:scale-[0.98]'
+              ? 'bg-[oklch(57%_0.15_250)] text-white hover:scale-[1.02] active:scale-[0.98]'
               : 'bg-[oklch(25%_0_0)] text-[oklch(50%_0_0)] cursor-not-allowed'
             }
           `}

@@ -69,7 +69,7 @@ export function FAQ() {
   return (
     <section
       id="faq"
-      className="bg-[var(--color-surface-light)] py-16 sm:py-20"
+      className="bg-[var(--color-surface-light)] py-8 sm:py-20"
     >
       <div className="mx-auto max-w-5xl px-6">
         <motion.h2
@@ -77,9 +77,8 @@ export function FAQ() {
           initial="hidden"
           whileInView="visible"
           viewport={VIEWPORT_SECTION}
-          className="mb-6 font-[family-name:var(--font-dm-serif)] text-[var(--color-text-primary)]"
+          className="mb-4 sm:mb-6 font-[family-name:var(--font-dm-serif)] text-2xl sm:text-[length:var(--text-section)] text-[var(--color-text-primary)]"
           style={{
-            fontSize: "var(--text-section)",
             lineHeight: "var(--leading-section)",
           }}
         >

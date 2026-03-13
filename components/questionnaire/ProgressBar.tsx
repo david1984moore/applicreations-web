@@ -22,7 +22,7 @@ export function ProgressBar({ progress }: { progress: number }) {
         aria-valuemax={100}
       >
         <div
-          className="h-full bg-[oklch(58%_0.20_240)] transition-all duration-[400ms] ease-in-out"
+          className="h-full bg-[oklch(57%_0.15_250)] transition-all duration-[400ms] ease-in-out"
           style={{ width: `${Math.min(100, Math.max(0, progress))}%` }}
         />
       </div>

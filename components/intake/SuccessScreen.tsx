@@ -147,10 +147,10 @@ export function SuccessScreen({ email }: SuccessScreenProps) {
             <p className="mt-8 text-sm text-white/60">
               Questions? Reach us at{' '}
               <a
-                href="mailto:hello@applicreations.com"
+                href="mailto:solutions@applicreations.com"
                 className="text-white/80 hover:underline"
               >
-                hello@applicreations.com
+                solutions@applicreations.com
               </a>
             </p>
           </motion.div>

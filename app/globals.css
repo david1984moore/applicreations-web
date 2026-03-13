@@ -6,6 +6,7 @@
   /* Dark ground — used for hero, Introspect CTA, footer */
   --color-surface-dark: oklch(14% 0.02 265);
   --color-surface-mid: oklch(18% 0.025 265);
+  --color-surface-nav-mobile: oklch(20% 0.022 265);
 
   /* Light ground — used for all body sections */
   --color-surface-light: oklch(98% 0.005 265);
@@ -93,6 +94,11 @@ body {
 @media (max-width: 767px) {
   body {
     background-color: var(--color-surface-dark);
+  }
+
+  :root {
+    --color-accent: oklch(60% 0.14 265);
+    --color-accent-hover: oklch(56% 0.16 265);
   }
 }
 
@@ -205,6 +211,12 @@ h3 {
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     background-color: oklch(14% 0.02 265 / 0.92) !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .nav-blur {
+    background-color: oklch(20% 0.022 265) !important;
   }
 }
 
