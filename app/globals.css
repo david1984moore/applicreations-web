@@ -79,20 +79,6 @@ html {
   background-color: oklch(14% 0.02 265); /* --color-surface-dark — prevents iOS overscroll white flash */
 }
 
-@media (max-width: 768px) {
-  html {
-    scroll-padding-top: 60px; /* Mobile nav same height when closed */
-  }
-}
-
-@media (max-width: 767px) {
-  body {
-    background-color: var(--color-surface-dark);
-  }
-}
-
-
-
 body {
   background: var(--color-surface-light);
   color: var(--color-text-primary);
@@ -102,6 +88,12 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeSpeed;
+}
+
+@media (max-width: 767px) {
+  body {
+    background-color: var(--color-surface-dark);
+  }
 }
 
 /* Phase 2B — Custom scrollbar */
