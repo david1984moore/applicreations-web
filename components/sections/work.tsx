@@ -272,6 +272,12 @@ function ProjectPanel({ project }: { project: (typeof PROJECTS)[number] }) {
   const displayedHighlight =
     displayedIndex !== null ? project.highlights[displayedIndex] : null;
 
+  const activeHotspotData =
+    activeHotspot !== null ? project.highlights[activeHotspot] : null;
+  const modalAtTop = activeHotspotData
+    ? activeHotspotData.placement.top >= 50
+    : false;
+
   const handlePinToggle = (index: number) => {
     setPinnedHighlightIndex((prev) => (prev === index ? null : index));
     setActiveHotspot(index);
@@ -331,11 +337,11 @@ function ProjectPanel({ project }: { project: (typeof PROJECTS)[number] }) {
                   transition={{ duration: 0.15 }}
                 >
                   <motion.div
-                    className="absolute bottom-4 left-3 right-3 bg-[oklch(14%_0.02_265)] border border-white/10 rounded-2xl p-4 shadow-2xl"
-                    onClick={(e) => e.stopPropagation()}
-                    initial={{ opacity: 0, y: 8 }}
+                    className={`absolute ${modalAtTop ? 'top-4' : 'bottom-4'} left-3 right-3 bg-[oklch(14%_0.02_265)] border border-white/10 rounded-2xl p-4 shadow-2xl`}
+                    onClick={() => setActiveHotspot(null)}
+                    initial={{ opacity: 0, y: modalAtTop ? -8 : 8 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 8 }}
+                    exit={{ opacity: 0, y: modalAtTop ? -8 : 8 }}
                     transition={{ duration: 0.2 }}
                   >
                     <div className="flex items-start gap-3">
@@ -346,12 +352,6 @@ function ProjectPanel({ project }: { project: (typeof PROJECTS)[number] }) {
                         {project.highlights[activeHotspot]?.text}
                       </p>
                     </div>
-                    <button
-                      className="mt-3 text-xs text-white/40 w-full text-center"
-                      onClick={() => setActiveHotspot(null)}
-                    >
-                      Tap to close
-                    </button>
                   </motion.div>
                 </motion.div>
               )}
@@ -403,7 +403,7 @@ function ProjectPanel({ project }: { project: (typeof PROJECTS)[number] }) {
               </button>
             ))}
           </div>
-          <p className="order-4 md:order-none wrap-break-word text-sm leading-snug md:leading-relaxed text-[var(--color-text-secondary)]">
+          <p className="order-1 md:order-none wrap-break-word text-sm leading-snug md:leading-relaxed text-[var(--color-text-secondary)]">
             {project.synopsis}
           </p>
         </div>
@@ -509,7 +509,7 @@ export function Work() {
           initial="hidden"
           whileInView="visible"
           viewport={VIEWPORT_SECTION}
-          className="mt-3 md:mt-10"
+          className="hidden md:block mt-3 md:mt-10"
         >
           <Button asChild variant="primary">
             <a href="/introspect" className="inline-flex items-center gap-2">
