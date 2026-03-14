@@ -1,7 +1,7 @@
 // components/sections/work.tsx — Portfolio showcase: Caramel & Jo, Mi Gente Bonita Market
 "use client";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -268,29 +268,6 @@ function ProjectPanel({ project }: { project: (typeof PROJECTS)[number] }) {
   >(null);
   const [activeHotspot, setActiveHotspot] = useState<number | null>(null);
 
-  const touchStartX = useRef<number>(0);
-  const touchEndX = useRef<number>(0);
-  const SWIPE_THRESHOLD = 40;
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX;
-  };
-
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    touchEndX.current = e.changedTouches[0].clientX;
-    const delta = touchStartX.current - touchEndX.current;
-
-    if (Math.abs(delta) < SWIPE_THRESHOLD) return;
-
-    if (delta > 0 && activeImageIndex < project.images.length - 1) {
-      setActiveHotspot(null);
-      setActiveImageIndex(activeImageIndex + 1);
-    } else if (delta < 0 && activeImageIndex > 0) {
-      setActiveHotspot(null);
-      setActiveImageIndex(activeImageIndex - 1);
-    }
-  };
-
   const displayedIndex = pinnedHighlightIndex ?? hoveredHighlightIndex;
   const displayedHighlight =
     displayedIndex !== null ? project.highlights[displayedIndex] : null;
@@ -328,12 +305,8 @@ function ProjectPanel({ project }: { project: (typeof PROJECTS)[number] }) {
           </AnimatePresence>
         </div>
 
-        <div className="order-1 flex justify-center md:order-2 md:justify-start">
-          <div
-            className="relative w-full max-w-[280px]"
-            onTouchStart={handleTouchStart}
-            onTouchEnd={handleTouchEnd}
-          >
+        <div className="order-2 flex justify-center md:order-2 md:justify-start">
+          <div className="relative w-full max-w-[280px]">
             <ImageWithHotspots
               src={project.images[activeImageIndex].src}
               alt={project.images[activeImageIndex].alt}
@@ -386,8 +359,8 @@ function ProjectPanel({ project }: { project: (typeof PROJECTS)[number] }) {
           </div>
         </div>
 
-        <div className="order-2 flex min-w-0 flex-col gap-1.5 md:gap-5">
-          <div>
+        <div className="contents md:order-2 md:flex md:min-w-0 md:flex-col md:gap-5">
+          <div className="order-1 md:order-none">
             <h3 className="font-[family-name:var(--font-dm-serif)] text-xl md:text-3xl text-[var(--color-text-primary)]">
               {project.name}
             </h3>
@@ -399,12 +372,12 @@ function ProjectPanel({ project }: { project: (typeof PROJECTS)[number] }) {
             href={project.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex w-fit cursor-pointer items-center gap-1.5 text-sm font-medium text-accent transition-colors hover:text-accent-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+            className="order-1 md:order-none inline-flex w-fit cursor-pointer items-center gap-1.5 text-sm font-medium text-accent transition-colors hover:text-accent-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
           >
             {project.linkLabel}
             <span aria-hidden>↗</span>
           </a>
-          <div className="flex gap-2 mt-3 justify-center md:mt-0 md:justify-start">
+          <div className="order-3 md:order-none flex gap-2 mt-3 justify-center md:mt-0 md:justify-start">
             {project.images.map((img, i) => (
               <button
                 key={i}
@@ -430,7 +403,7 @@ function ProjectPanel({ project }: { project: (typeof PROJECTS)[number] }) {
               </button>
             ))}
           </div>
-          <p className="wrap-break-word text-sm leading-snug md:leading-relaxed text-[var(--color-text-secondary)]">
+          <p className="order-4 md:order-none wrap-break-word text-sm leading-snug md:leading-relaxed text-[var(--color-text-secondary)]">
             {project.synopsis}
           </p>
         </div>
