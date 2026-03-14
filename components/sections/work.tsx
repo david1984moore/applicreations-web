@@ -1,7 +1,7 @@
 // components/sections/work.tsx — Portfolio showcase: Caramel & Jo, Mi Gente Bonita Market
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -268,6 +268,29 @@ function ProjectPanel({ project }: { project: (typeof PROJECTS)[number] }) {
   >(null);
   const [activeHotspot, setActiveHotspot] = useState<number | null>(null);
 
+  const touchStartX = useRef<number>(0);
+  const touchEndX = useRef<number>(0);
+  const SWIPE_THRESHOLD = 40;
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    touchEndX.current = e.changedTouches[0].clientX;
+    const delta = touchStartX.current - touchEndX.current;
+
+    if (Math.abs(delta) < SWIPE_THRESHOLD) return;
+
+    if (delta > 0 && activeImageIndex < project.images.length - 1) {
+      setActiveHotspot(null);
+      setActiveImageIndex(activeImageIndex + 1);
+    } else if (delta < 0 && activeImageIndex > 0) {
+      setActiveHotspot(null);
+      setActiveImageIndex(activeImageIndex - 1);
+    }
+  };
+
   const displayedIndex = pinnedHighlightIndex ?? hoveredHighlightIndex;
   const displayedHighlight =
     displayedIndex !== null ? project.highlights[displayedIndex] : null;
@@ -306,7 +329,11 @@ function ProjectPanel({ project }: { project: (typeof PROJECTS)[number] }) {
         </div>
 
         <div className="order-1 flex justify-center md:order-2 md:justify-start">
-          <div className="w-full max-w-[280px]">
+          <div
+            className="relative w-full max-w-[280px]"
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+          >
             <ImageWithHotspots
               src={project.images[activeImageIndex].src}
               alt={project.images[activeImageIndex].alt}
@@ -320,6 +347,42 @@ function ProjectPanel({ project }: { project: (typeof PROJECTS)[number] }) {
               onHoverEnd={() => setHoveredHighlightIndex(null)}
               onPinToggle={handlePinToggle}
             />
+            <AnimatePresence>
+              {activeHotspot !== null && (
+                <motion.div
+                  className="absolute inset-0 z-20 md:hidden"
+                  onClick={() => setActiveHotspot(null)}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.15 }}
+                >
+                  <motion.div
+                    className="absolute bottom-4 left-3 right-3 bg-[oklch(14%_0.02_265)] border border-white/10 rounded-2xl p-4 shadow-2xl"
+                    onClick={(e) => e.stopPropagation()}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 8 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <div className="flex items-start gap-3">
+                      <span className="shrink-0 w-7 h-7 rounded-full bg-[var(--color-accent)] flex items-center justify-center text-white text-sm font-semibold">
+                        {activeHotspot + 1}
+                      </span>
+                      <p className="text-white/90 text-sm leading-relaxed">
+                        {project.highlights[activeHotspot]?.text}
+                      </p>
+                    </div>
+                    <button
+                      className="mt-3 text-xs text-white/40 w-full text-center"
+                      onClick={() => setActiveHotspot(null)}
+                    >
+                      Tap to close
+                    </button>
+                  </motion.div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
 
@@ -373,32 +436,6 @@ function ProjectPanel({ project }: { project: (typeof PROJECTS)[number] }) {
         </div>
       </div>
 
-      {activeHotspot !== null && (
-        <div
-          className="fixed inset-0 z-50 flex items-end justify-center pb-8 px-4 md:hidden"
-          onClick={() => setActiveHotspot(null)}
-        >
-          <div
-            className="bg-[oklch(14%_0.02_265)] border border-white/10 rounded-2xl p-5 w-full max-w-sm shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex items-start gap-3">
-              <span className="shrink-0 w-7 h-7 rounded-full bg-accent flex items-center justify-center text-white text-sm font-semibold">
-                {activeHotspot + 1}
-              </span>
-              <p className="text-white/90 text-sm leading-relaxed">
-                {project.highlights[activeHotspot]?.text}
-              </p>
-            </div>
-            <button
-              className="mt-4 text-xs text-white/40 w-full text-center"
-              onClick={() => setActiveHotspot(null)}
-            >
-              Tap anywhere to close
-            </button>
-          </div>
-        </div>
-      )}
     </motion.div>
   );
 }
