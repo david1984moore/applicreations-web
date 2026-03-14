@@ -238,7 +238,7 @@ function ImageWithHotspots({
           className="object-contain md:object-cover md:object-top"
         />
       </div>
-      <div className="absolute inset-0 hidden md:block" aria-hidden>
+      <div className="absolute inset-0" aria-hidden>
         {relevantHighlights.map(({ text, placement, originalIndex }) => (
           <Hotspot
             key={originalIndex}
@@ -266,6 +266,7 @@ function ProjectPanel({ project }: { project: (typeof PROJECTS)[number] }) {
   const [pinnedHighlightIndex, setPinnedHighlightIndex] = useState<
     number | null
   >(null);
+  const [activeHotspot, setActiveHotspot] = useState<number | null>(null);
 
   const displayedIndex = pinnedHighlightIndex ?? hoveredHighlightIndex;
   const displayedHighlight =
@@ -273,6 +274,7 @@ function ProjectPanel({ project }: { project: (typeof PROJECTS)[number] }) {
 
   const handlePinToggle = (index: number) => {
     setPinnedHighlightIndex((prev) => (prev === index ? null : index));
+    setActiveHotspot(index);
   };
 
   return (
@@ -321,27 +323,12 @@ function ProjectPanel({ project }: { project: (typeof PROJECTS)[number] }) {
           </div>
         </div>
 
-        <div className="order-2 md:hidden">
-          <ul className="space-y-1">
-            {project.highlights.map((h, i) => (
-              <li key={i} className="flex items-start gap-2 text-sm leading-snug">
-                <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-accent text-[10px] font-semibold text-white">
-                  {i + 1}
-                </span>
-                <span className="text-[var(--color-text-secondary)]">
-                  {h.text}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="order-3 flex min-w-0 flex-col gap-1.5 md:gap-5">
+        <div className="order-2 flex min-w-0 flex-col gap-1.5 md:gap-5">
           <div>
-            <h3 className="font-[family-name:var(--font-dm-serif)] text-lg md:text-3xl text-[var(--color-text-primary)]">
+            <h3 className="font-[family-name:var(--font-dm-serif)] text-xl md:text-3xl text-[var(--color-text-primary)]">
               {project.name}
             </h3>
-            <p className="mt-0.5 md:mt-1 text-xs md:text-base text-[var(--color-text-secondary)]">
+            <p className="mt-0.5 md:mt-1 text-sm md:text-base text-[var(--color-text-secondary)]">
               {project.tagline}
             </p>
           </div>
@@ -354,7 +341,7 @@ function ProjectPanel({ project }: { project: (typeof PROJECTS)[number] }) {
             {project.linkLabel}
             <span aria-hidden>↗</span>
           </a>
-          <div className="hidden md:flex gap-2">
+          <div className="flex gap-2 mt-3 justify-center md:mt-0 md:justify-start">
             {project.images.map((img, i) => (
               <button
                 key={i}
@@ -362,10 +349,10 @@ function ProjectPanel({ project }: { project: (typeof PROJECTS)[number] }) {
                 onClick={() => setActiveImageIndex(i)}
                 aria-label={`View screenshot ${i + 1}`}
                 className={`
-                  relative aspect-9/19 w-14 shrink-0 cursor-pointer overflow-hidden rounded-lg border-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2
+                  relative w-16 h-16 md:w-14 md:h-auto md:aspect-9/19 shrink-0 cursor-pointer overflow-hidden rounded-lg border-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2
                   ${
                     activeImageIndex === i
-                      ? "border-accent ring-2 ring-accent/20"
+                      ? "border-accent ring-2 ring-accent"
                       : "border-[var(--color-border-light)] opacity-75 hover:opacity-100 hover:border-[var(--color-border-dark)]"
                   }
                 `}
@@ -380,11 +367,38 @@ function ProjectPanel({ project }: { project: (typeof PROJECTS)[number] }) {
               </button>
             ))}
           </div>
-          <p className="wrap-break-word text-xs md:text-sm leading-snug md:leading-relaxed text-[var(--color-text-secondary)]">
+          <p className="wrap-break-word text-sm leading-snug md:leading-relaxed text-[var(--color-text-secondary)]">
             {project.synopsis}
           </p>
         </div>
       </div>
+
+      {activeHotspot !== null && (
+        <div
+          className="fixed inset-0 z-50 flex items-end justify-center pb-8 px-4 md:hidden"
+          onClick={() => setActiveHotspot(null)}
+        >
+          <div
+            className="bg-[oklch(14%_0.02_265)] border border-white/10 rounded-2xl p-5 w-full max-w-sm shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-start gap-3">
+              <span className="shrink-0 w-7 h-7 rounded-full bg-accent flex items-center justify-center text-white text-sm font-semibold">
+                {activeHotspot + 1}
+              </span>
+              <p className="text-white/90 text-sm leading-relaxed">
+                {project.highlights[activeHotspot]?.text}
+              </p>
+            </div>
+            <button
+              className="mt-4 text-xs text-white/40 w-full text-center"
+              onClick={() => setActiveHotspot(null)}
+            >
+              Tap anywhere to close
+            </button>
+          </div>
+        </div>
+      )}
     </motion.div>
   );
 }
@@ -424,15 +438,11 @@ export function Work() {
           className="mb-4 md:mb-10 text-left"
         >
           <h2
-            className="font-[family-name:var(--font-dm-serif)] text-[var(--color-text-primary)]"
-            style={{
-              fontSize: "var(--text-section)",
-              lineHeight: "var(--leading-section)",
-            }}
+            className="font-[family-name:var(--font-dm-serif)] text-3xl md:text-[length:var(--text-section)] md:leading-[var(--leading-section)] text-[var(--color-text-primary)]"
           >
             Our Work
           </h2>
-          <p className="mt-2 md:mt-3 max-w-2xl text-sm md:text-lg text-[var(--color-text-secondary)]">
+          <p className="mt-2 md:mt-3 max-w-2xl text-base md:text-lg text-[var(--color-text-secondary)]">
             A peek at what we've built — custom web apps that feel native on
             your phone. Pick a project below to explore.
           </p>
