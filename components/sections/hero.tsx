@@ -12,25 +12,25 @@ const STEPS = [
     num: "01",
     timeframe: "5 Minutes",
     title: "Introspect",
-    body: "Answer a few questions using Introspect, our custom intake tool. Your responses are transformed into a Product Requirements Document—a blueprint our developers use to architect your project from the ground up.",
+    body: "Answer a few focused questions. Introspect turns your responses into a technical blueprint.",
   },
   {
     num: "02",
     timeframe: "48 Hours",
     title: "Build",
-    body: "Our developers get to work immediately, building a live preview of your custom site or app—delivered within 48 hours, at no charge.",
+    body: "We deliver a working preview of your site or app within 48 hours—free.",
   },
   {
     num: "03",
     timeframe: "Ongoing",
     title: "Test",
-    body: "Explore your preview and share feedback. We'll refine what needs adjusting until it feels exactly right—then lock in your official proposal.",
+    body: "Review your preview. When you're ready to move forward, we make it official and get to work.",
   },
   {
     num: "04",
     timeframe: "2–6 Weeks",
     title: "Grow",
-    body: "Once the proposal is signed, your build kicks off. Most projects wrap in 2–6 weeks depending on scope—and we keep you in the loop the entire way.",
+    body: "We take it from preview to finished product. Most projects wrap in 2–6 weeks.",
   },
 ] as const;
 
