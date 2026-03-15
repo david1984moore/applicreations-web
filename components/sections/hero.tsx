@@ -9,28 +9,30 @@ import { TRANSITION_REVEAL } from "@/lib/animations";
 
 const textRevealVariants = {
   fromRight: {
-    hidden: { opacity: 0, x: 40 },
+    hidden: { opacity: 0, x: 60 },
     visible: {
       opacity: 1,
       x: 0,
       transition: {
         type: "spring" as const,
-        stiffness: 260,
-        damping: 24,
-        mass: 0.8,
+        stiffness: 40,
+        damping: 18,
+        mass: 1.4,
+        opacity: { duration: 0.9, ease: "easeOut" as const },
       },
     },
   },
   fromLeft: {
-    hidden: { opacity: 0, x: -40 },
+    hidden: { opacity: 0, x: -60 },
     visible: {
       opacity: 1,
       x: 0,
       transition: {
         type: "spring" as const,
-        stiffness: 260,
-        damping: 24,
-        mass: 0.8,
+        stiffness: 40,
+        damping: 18,
+        mass: 1.4,
+        opacity: { duration: 0.9, ease: "easeOut" as const },
       },
     },
   },
@@ -163,7 +165,6 @@ export function Hero() {
             const alignRight = index % 2 === 0;
             const isExpanded =
               expandedIds.has(num) || (!isMobile && hoveredId === num);
-            const slideX = isMobile ? (alignRight ? -24 : 24) : 0;
 
             return (
               <motion.div
@@ -218,25 +219,6 @@ export function Hero() {
                     <h3 className="mb-2 text-xl font-semibold text-[var(--color-text-on-dark)]">
                       {title}
                     </h3>
-                    <span
-                      className={cn(
-                        "flex items-center justify-center text-accent transition-transform duration-200",
-                        isExpanded && "rotate-180"
-                      )}
-                    >
-                      <svg
-                        className="h-4 w-5 shrink-0"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth={4}
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        aria-hidden
-                      >
-                        <path d="M19 9l-7 7-7-7" />
-                      </svg>
-                    </span>
                   </span>
                   <AnimatePresence initial={false}>
                     {isExpanded && (
@@ -245,34 +227,36 @@ export function Hero() {
                         id={`process-body-${num}`}
                         role="region"
                         aria-labelledby={`process-trigger-${num}`}
-                        initial={{ height: 0, opacity: 0, x: slideX }}
-                        animate={{ height: "auto", opacity: 1, x: 0 }}
-                        exit={{ height: 0, opacity: 0, x: slideX }}
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
                         transition={TRANSITION_REVEAL}
                         className="w-full overflow-hidden"
                       >
-                        <motion.p
-                          variants={
-                            isMobile
-                              ? alignRight
-                                ? textRevealVariants.fromRight
-                                : textRevealVariants.fromLeft
-                              : undefined
-                          }
-                          initial={isMobile ? "hidden" : undefined}
-                          whileInView={isMobile ? "visible" : undefined}
-                          viewport={
-                            isMobile
-                              ? { once: true, margin: "-60px" }
-                              : undefined
-                          }
-                          className={cn(
-                            "text-balance text-[15px] leading-relaxed text-[var(--color-text-on-dark-muted)]",
-                            !isMobile && "mx-auto max-w-[260px]"
-                          )}
-                        >
-                          {body}
-                        </motion.p>
+                        <div className="overflow-hidden">
+                          <motion.p
+                            variants={
+                              isMobile
+                                ? alignRight
+                                  ? textRevealVariants.fromRight
+                                  : textRevealVariants.fromLeft
+                                : undefined
+                            }
+                            initial={isMobile ? "hidden" : undefined}
+                            whileInView={isMobile ? "visible" : undefined}
+                            viewport={
+                              isMobile
+                                ? { once: true, margin: "-60px" }
+                                : undefined
+                            }
+                            className={cn(
+                              "text-balance text-[15px] leading-relaxed text-[var(--color-text-on-dark-muted)]",
+                              !isMobile && "mx-auto max-w-[260px]"
+                            )}
+                          >
+                            {body}
+                          </motion.p>
+                        </div>
                       </motion.div>
                     )}
                   </AnimatePresence>
