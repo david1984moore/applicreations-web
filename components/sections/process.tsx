@@ -27,9 +27,9 @@ const STEPS = [
   },
   {
     num: "04",
-    timeframe: "2–6 Weeks",
+    timeframe: "2–4 Weeks",
     title: "Grow",
-    body: "We take it from preview to finished product. Most projects wrap in 2–6 weeks.",
+    body: "We take it from preview to finished product. Most projects wrap in 2–4 weeks.",
   },
 ] as const;
 

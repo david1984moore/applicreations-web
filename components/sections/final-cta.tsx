@@ -6,13 +6,7 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { ANIMATION } from "@/lib/animations/constants";
 import { IntrospectFieldCycler } from "@/components/sections/introspect-field-cycler";
-
-const BULLETS = [
-  "Gathers the pertinent requirements for your project",
-  "Transforms your answers into a Product Requirements Document (PRD) for our development team",
-  "We get to work on your free demo",
-  "Like the demo? We agree on scope and timeline, then refine it into your final product — delivered on schedule.",
-] as const;
+import { IntrospectTimeline } from "@/components/sections/introspect-timeline";
 
 export function FinalCTA() {
   const ref = useRef<HTMLElement>(null);
@@ -64,37 +58,16 @@ export function FinalCTA() {
               duration: ANIMATION.duration.normal / 1000,
             }}
           >
-            Good builds start with good questions. Introspect is how we make sure
-            we understand your project before writing a single line of code —
-            the project, the purpose behind it, and what done actually looks
-            like. Takes about 5–10 minutes. We&#39;ll have a working demo
-            within 48 hours, completely free.
+            Good builds start with good questions. Introspect is a short intake —
+            about 5–10 minutes — that helps us understand your project,
+            what&apos;s driving it, and what a successful outcome looks like.
+            We&apos;ll have a working demo back to you within 48 hours, completely
+            free.
           </motion.p>
 
-          {/* Desktop-only numbered points */}
-          <div className="hidden lg:flex mb-10 flex-col gap-6">
-            {BULLETS.map((text, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, x: -12 }}
-                animate={isInView ? { opacity: 1, x: 0 } : {}}
-                transition={{
-                  delay: 0.55 + i * 0.1,
-                  duration: ANIMATION.duration.normal / 1000,
-                }}
-                className="flex items-start gap-4"
-              >
-                <span
-                  className="font-[family-name:var(--font-dm-serif)] text-2xl text-accent opacity-50"
-                  aria-hidden
-                >
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <span className="font-medium text-[var(--color-text-on-dark)]">
-                  {text}
-                </span>
-              </motion.div>
-            ))}
+          {/* Desktop-only animated timeline */}
+          <div className="hidden lg:block mb-10">
+            <IntrospectTimeline />
           </div>
         </div>
 
@@ -103,40 +76,19 @@ export function FinalCTA() {
           <IntrospectFieldCycler />
         </div>
 
-        {/* Mobile-only: bullets + standalone CTA below the animation */}
+        {/* Mobile-only: timeline + standalone CTA below the animation */}
         <div className="order-3 flex flex-col gap-8 lg:hidden">
-          <div className="flex flex-col gap-6">
-            {BULLETS.map((text, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, x: -12 }}
-                animate={isInView ? { opacity: 1, x: 0 } : {}}
-                transition={{
-                  delay: 0.55 + i * 0.1,
-                  duration: ANIMATION.duration.normal / 1000,
-                }}
-                className="flex items-start gap-4"
-              >
-                <span
-                  className="font-[family-name:var(--font-dm-serif)] text-2xl text-accent opacity-50"
-                  aria-hidden
-                >
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <span className="font-medium text-[var(--color-text-on-dark)]">
-                  {text}
-                </span>
-              </motion.div>
-            ))}
-          </div>
+          <IntrospectTimeline />
 
-          <Link
-            href="/introspect"
-            className="inline-flex items-center gap-2 self-start rounded-full bg-accent px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
-          >
-            Start Introspect
-            <span>→</span>
-          </Link>
+          <div className="flex justify-center md:justify-start">
+            <Link
+              href="/introspect"
+              className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
+            >
+              Start Introspect
+              <span>→</span>
+            </Link>
+          </div>
         </div>
       </div>
     </section>
