@@ -7,6 +7,35 @@ import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import { TRANSITION_REVEAL } from "@/lib/animations";
 
+const textRevealVariants = {
+  fromRight: {
+    hidden: { opacity: 0, x: 40 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        type: "spring" as const,
+        stiffness: 260,
+        damping: 24,
+        mass: 0.8,
+      },
+    },
+  },
+  fromLeft: {
+    hidden: { opacity: 0, x: -40 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        type: "spring" as const,
+        stiffness: 260,
+        damping: 24,
+        mass: 0.8,
+      },
+    },
+  },
+};
+
 const STEPS = [
   {
     num: "01",
@@ -222,14 +251,28 @@ export function Hero() {
                         transition={TRANSITION_REVEAL}
                         className="w-full overflow-hidden"
                       >
-                        <p
+                        <motion.p
+                          variants={
+                            isMobile
+                              ? alignRight
+                                ? textRevealVariants.fromRight
+                                : textRevealVariants.fromLeft
+                              : undefined
+                          }
+                          initial={isMobile ? "hidden" : undefined}
+                          whileInView={isMobile ? "visible" : undefined}
+                          viewport={
+                            isMobile
+                              ? { once: true, margin: "-60px" }
+                              : undefined
+                          }
                           className={cn(
                             "text-balance text-[15px] leading-relaxed text-[var(--color-text-on-dark-muted)]",
                             !isMobile && "mx-auto max-w-[260px]"
                           )}
                         >
                           {body}
-                        </p>
+                        </motion.p>
                       </motion.div>
                     )}
                   </AnimatePresence>
