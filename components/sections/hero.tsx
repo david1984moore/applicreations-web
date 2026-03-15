@@ -15,10 +15,10 @@ const textRevealVariants = {
       x: 0,
       transition: {
         type: "spring" as const,
-        stiffness: 40,
-        damping: 18,
-        mass: 1.4,
-        opacity: { duration: 0.9, ease: "easeOut" as const },
+        stiffness: 55,
+        damping: 20,
+        mass: 1.2,
+        opacity: { duration: 0.65, ease: "easeOut" as const },
       },
     },
   },
@@ -29,10 +29,10 @@ const textRevealVariants = {
       x: 0,
       transition: {
         type: "spring" as const,
-        stiffness: 40,
-        damping: 18,
-        mass: 1.4,
-        opacity: { duration: 0.9, ease: "easeOut" as const },
+        stiffness: 55,
+        damping: 20,
+        mass: 1.2,
+        opacity: { duration: 0.65, ease: "easeOut" as const },
       },
     },
   },
@@ -205,7 +205,7 @@ export function Hero() {
                     )}
                   >
                     <p
-                      className="process-num-glass mb-1 font-[family-name:var(--font-dm-sans)] text-6xl font-thin"
+                      className="process-num-glass mb-1 font-[family-name:var(--font-dm-sans)] text-6xl font-light"
                       aria-hidden
                     >
                       {num}
@@ -250,7 +250,7 @@ export function Hero() {
                                 : undefined
                             }
                             className={cn(
-                              "text-balance text-[15px] leading-relaxed text-[var(--color-text-on-dark-muted)]",
+                              "text-balance text-[17px] leading-relaxed text-[var(--color-text-on-dark-muted)]",
                               !isMobile && "mx-auto max-w-[260px]"
                             )}
                           >
